@@ -1,22 +1,30 @@
 <template>
   <div id="home">
     <articles>
+<!--      引导区-->
       <banner />
+      <about />
     </articles>
 
-    <about />
+    <articles>
+      <home-soon />
+    </articles>
 
-    <subscribe />
 
-    <social />
+<!--    订阅-->
+<!--    <subscribe />-->
+
+<!--    <social />-->
   </div>
 </template>
 
 <script>
+  import HomeSoon from '../components/home/Soon'
   export default {
     name: 'Home',
 
     components: {
+      HomeSoon,
       About: () => import('@/components/home/About'),
       Articles: () => import('@/components/home/Articles'),
       Banner: () => import('@/components/home/Banner'),

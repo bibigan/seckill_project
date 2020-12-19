@@ -1,5 +1,6 @@
 <template>
   <v-container>
+<!--    商品-->
     <v-row>
       <v-col cols="12">
         <slot />
@@ -12,7 +13,7 @@
         :value="article"
       />
     </v-row>
-
+<!--页码-->
     <v-row align="center">
       <v-col cols="3">
         <base-btn
@@ -30,7 +31,7 @@
         class="text-center subheading"
         cols="6"
       >
-        PAGE {{ page }} OF {{ pages }}
+        第 {{ page }} 页 | 共 {{ pages }} 页
       </v-col>
 
       <v-col
@@ -41,7 +42,7 @@
           v-if="pages > 1 && page < pages"
           class="mr-0"
           square
-          title="Next page"
+          title="下一页"
           @click="page++"
         >
           <v-icon>mdi-chevron-right</v-icon>
@@ -65,18 +66,21 @@
     },
 
     data: () => ({
-      layout: [2, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3],
+      // 每行卡片的个数
+      layout:[3, 3, 3, 3, 3, 3],
       page: 1,
+      count: 6,
+      // 每页6个
     }),
 
     computed: {
       ...mapState(['articles']),
       pages () {
-        return Math.ceil(this.articles.length / 11)
+        return Math.ceil(this.articles.length / this.count)
       },
       paginatedArticles () {
-        const start = (this.page - 1) * 11
-        const stop = this.page * 11
+        const start = (this.page - 1) * this.count
+        const stop = this.page * this.count
 
         return this.articles.slice(start, stop)
       },
@@ -84,8 +88,23 @@
 
     watch: {
       page () {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, this.windowScroll())
       },
+    },
+
+    mounted () {
+      window.addEventListener('scroll', this.windowScroll)
+    },
+    methods: {
+      windowScroll () {
+        // 滚动条距离页面顶部的距离
+        // 以下写法原生兼容
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        return scrollTop
+      },
+    },
+    beforeDestroy () {
+      window.removeEventListener('scroll', this.windowScroll)
     },
   }
 </script>

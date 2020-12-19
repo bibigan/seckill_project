@@ -1,7 +1,7 @@
 <template>
   <section id="feed">
     <feed>
-      <slot />
+<!--      卡槽--><slot />
     </feed>
   </section>
 </template>

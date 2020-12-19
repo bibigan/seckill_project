@@ -47,7 +47,7 @@
               small
               @click.stop=""
             >
-              Read More
+              购 买
             </v-chip>
           </v-col>
         </v-row>

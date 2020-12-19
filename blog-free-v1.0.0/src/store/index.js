@@ -20,7 +20,7 @@ export default new Vuex.Store({
       {
         // 跳转到首页的即将秒杀栏
         text: '即将秒杀',
-        href: '#about',
+        href: '#soon',
       },
       {
         // 跳转到我的订单页
@@ -47,7 +47,7 @@ export default new Vuex.Store({
         })
       }
       // 分类个数
-      return categories.sort().slice(0, 3)
+      return categories.sort().slice(0, 0)
     },
     // 导航栏的分类
     links: (state, getters) => {

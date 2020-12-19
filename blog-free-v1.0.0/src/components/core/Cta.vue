@@ -1,10 +1,10 @@
 <template>
   <v-btn
     :style="styles"
-    color="secondary"
+    color="primary"
     fab
     fixed
-    href="https://store.vuetifyjs.com/product/blog-theme-free"
+    href="https://www.baidu.com/"
     rel="noopener"
     right
     target="_blank"

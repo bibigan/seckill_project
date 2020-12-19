@@ -16,18 +16,18 @@
           offset-md="5"
         >
           <h1 class="display-3 font-weight-light">
-            The Art Of Travel
+            秒杀商城
           </h1>
 
           <div class="subheading text-uppercase pl-2 mb-4">
-            Finding Beauty, One flight at a time
+            秒杀即将开始，下单尽享优惠
           </div>
 
           <v-btn
             color="primary"
             depressed
           >
-            Subscribe
+            去下单
           </v-btn>
         </v-col>
       </v-row>

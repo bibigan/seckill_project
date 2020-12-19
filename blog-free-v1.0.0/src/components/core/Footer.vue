@@ -25,7 +25,7 @@
         <base-btn
           class="mr-0"
           square
-          title="Go to top"
+          title="去顶部"
           @click="$vuetify.goTo(0)"
         >
           <v-icon>mdi-chevron-up</v-icon>

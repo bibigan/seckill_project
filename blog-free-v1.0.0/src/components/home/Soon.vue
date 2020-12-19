@@ -1,16 +1,15 @@
 <template>
   <v-container
-    id="about"
+    id="soon"
     tag="section"
-    class="mt-5"
   >
-    <base-subheading>正在秒杀</base-subheading>
+    <base-subheading>即将秒杀</base-subheading>
 
   </v-container>
 </template>
 
 <script>
   export default {
-    name: 'HomeAbout',
+    name: 'HomeSoon',
   }
 </script>
