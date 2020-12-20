@@ -1,80 +1,93 @@
 [
   {
     "title": "海景小屋",
-    "author": "5356.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "5356.00",
+    "seckillEndTime": "2020-12-20 00:55:55",
+    "seckillStartTime": "2020-12-19 00:55:55",
     "hero": "moroccandays.jpg"
   },
   {
     "title": "瑞典钓鱼",
-    "author": "3424.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "3424.00",
+    "seckillEndTime": "2020-12-21 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "autumnclouds.jpg"
   },
   {
     "title": "春季巴黎",
-    "author": "2124.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "2124.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-21 00:00:00",
     "hero": "christmas.jpg"
   },
   {
     "title": "烟火晚宴",
-    "author": "899.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "899.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "july4.jpg"
   },
   {
     "title": "户外野炊",
-    "author": "654.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "654.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "firepots.jpg"
   },
   {
     "title": "水底冒险",
-    "author": "664.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "664.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "jellyfish.jpg"
   },
   {
     "title": "山壁小屋",
-    "author": "678.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "678.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "mountaincabin.jpg"
   },
   {
     "title": "科苏梅尔洞穴",
-    "author": "889.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "889.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "lightcave.jpg"
   },
   {
     "title": "爱尔兰之旅",
-    "author": "455.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "455.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "greengrass.jpg"
   },
   {
     "title": "山林雪屋",
-    "author": "565.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "565.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "snowcabin.jpg"
   },
   {
     "title": "古迹之行",
-    "author": "745.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "745.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "ruins.jpg"
   },
   {
     "title": "朝拜之行",
-    "author": "245.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "245.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "umbrella.jpg"
   },
   {
     "title": "越野假期",
-    "author": "435.00",
-    "category": "2020-12-22 00:55:55",
+    "price": "435.00",
+    "seckillEndTime": "2020-12-22 00:55:55",
+    "seckillStartTime": "2020-12-20 00:55:55",
     "hero": "adventurecave.jpg"
   }
 ]

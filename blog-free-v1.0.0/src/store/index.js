@@ -30,28 +30,28 @@ export default new Vuex.Store({
     ],
   },
   getters: {
-    categories: state => {
-      const categories = []
+    seckillEndTimes: state => {
+      const seckillEndTimes = []
 
       for (const article of state.articles) {
         if (
-          !article.category ||
-          categories.find(category => category.text === article.category)
+          !article.seckillEndTime ||
+          seckillEndTimes.find(seckillEndTime => seckillEndTime.text === article.seckillEndTime)
         ) continue
 
-        const text = article.category
+        const text = article.seckillEndTime
 
-        categories.push({
+        seckillEndTimes.push({
           text,
           href: '#home',
         })
       }
       // 分类个数
-      return categories.sort().slice(0, 0)
+      return seckillEndTimes.sort().slice(0, 0)
     },
     // 导航栏的分类
     links: (state, getters) => {
-      return state.items.concat(getters.categories)
+      return state.items.concat(getters.seckillEndTimes)
     },
   },
   mutations: {

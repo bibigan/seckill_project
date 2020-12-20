@@ -27,10 +27,11 @@
               small
               @click.stop=""
             >
-              距离秒杀结束还有 <base-time-count
-                              :end-time=" value.category"
-                              style="color: aqua"
-                              />
+              <base-time-count
+                :end-time=" value.seckillEndTime"
+                :start-time="value.seckillStartTime"
+                 style="color: aqua"
+               />
             </v-chip>
 
             <h3 class="title font-weight-bold mb-2">
@@ -38,7 +39,7 @@
             </h3>
 
             <div class="caption">
-              ￥{{ value.author }}<br>
+              ￥{{ value.price }}<br>
             </div>
           </v-col>
 
