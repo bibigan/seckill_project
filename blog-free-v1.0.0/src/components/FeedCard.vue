@@ -27,7 +27,10 @@
               small
               @click.stop=""
             >
-              {{ value.category }}
+              距离秒杀结束还有 <base-time-count
+                              :end-time=" value.category"
+                              style="color: aqua"
+                              />
             </v-chip>
 
             <h3 class="title font-weight-bold mb-2">
@@ -35,7 +38,7 @@
             </h3>
 
             <div class="caption">
-              {{ value.author }}<br>Date
+              ￥{{ value.author }}<br>
             </div>
           </v-col>
 
@@ -50,7 +53,9 @@
               <v-icon
                 dark
                 small
-              >mdi-cart-plus</v-icon>
+              >
+                mdi-cart-plus
+              </v-icon>
             </v-chip>
           </v-col>
         </v-row>
@@ -60,9 +65,13 @@
 </template>
 
 <script>
+  import BaseTimeCount from './base/TimeCount'
   export default {
     name: 'FeedCard',
+    components: {
+      BaseTimeCount,
 
+    },
     props: {
       size: {
         type: Number,
@@ -71,6 +80,19 @@
       value: {
         type: Object,
         default: () => ({}),
+      },
+    },
+    computed: {
+      // eslint-disable-next-line vue/return-in-computed-property
+      endTime () {
+      },
+    },
+    mounted () {
+
+    },
+    methods: {
+      getEndTime () {
+
       },
     },
   }

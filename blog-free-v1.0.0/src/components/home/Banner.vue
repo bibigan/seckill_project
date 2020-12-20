@@ -15,6 +15,7 @@
           class="grey lighten-2"
           height="400"
           width="100%"
+          gradient="rgba(0, 0, 0, .22), rgba(0, 0, 0, .22)"
         >
           <!--        <v-row-->
           <!--          class="fill-height"-->
@@ -82,8 +83,8 @@
         ],
         pictures: [
           require('@/assets/articles/blurcamera.jpg'),
-          require('@/assets/articles/snowcup.jpg'),
-          require('@/assets/articles/snowcup.jpg'),
+          require('@/assets/articles/christmas.jpg'),
+          require('@/assets/articles/july4.jpg'),
         ],
       }
     },
