@@ -1,10 +1,10 @@
 <template>
   <v-col
     cols="12"
-    :md="size === 2 ? 6 : size === 3 ? 4 : undefined"
+    :md="size === 2 ? 6 : size === 3 ? 3 : undefined"
   >
     <base-card
-      :height="value.prominent ? 450 : 350"
+      :height="value.prominent ? 450 : 300"
       color="grey lighten-1"
       dark
       href="#!"
@@ -47,7 +47,10 @@
               small
               @click.stop=""
             >
-              购 买
+              <v-icon
+                dark
+                small
+              >mdi-cart-plus</v-icon>
             </v-chip>
           </v-col>
         </v-row>

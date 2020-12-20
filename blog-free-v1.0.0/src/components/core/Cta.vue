@@ -1,7 +1,7 @@
 <template>
   <v-btn
     :style="styles"
-    color="primary"
+    color="secondary"
     fab
     fixed
     href="https://www.baidu.com/"
@@ -10,9 +10,10 @@
     target="_blank"
     top
   >
-    <v-icon>
-      mdi-vuetify
-    </v-icon>
+<!--    <v-icon>-->
+<!--      mdi-vuetify-->
+<!--    </v-icon>-->
+    <v-icon>mdi-account-circle</v-icon>
   </v-btn>
 </template>
 
