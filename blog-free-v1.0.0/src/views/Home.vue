@@ -1,15 +1,18 @@
 <template>
   <div id="home">
-    <articles>
+    <articles
+      :status="true"
+    >
 <!--      引导区-->
       <banner />
       <about />
     </articles>
 
-    <articles>
+    <articles
+      :status="false"
+    >
       <home-soon />
     </articles>
-
 
 <!--    订阅-->
 <!--    <subscribe />-->

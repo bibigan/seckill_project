@@ -1,6 +1,6 @@
 <template>
   <v-container>
-<!--    商品-->
+    <!--    商品-->
     <v-row>
       <v-col cols="12">
         <slot />
@@ -11,9 +11,10 @@
         :key="article.title"
         :size="layout[i]"
         :value="article"
+        :status="status"
       />
     </v-row>
-<!--页码-->
+    <!--页码-->
     <v-row align="center">
       <v-col cols="3">
         <base-btn
@@ -60,17 +61,22 @@
 
   export default {
     name: 'Feed',
-
     components: {
       FeedCard: () => import('@/components/FeedCard'),
+    },
+    props: {
+      status: {
+        // eslint-disable-next-line no-undef
+        type: Boolean,
+      },
     },
 
     data: () => ({
       // 每行卡片的个数
-      layout:[3, 3, 3, 3, 3, 3,3,3],
+      layout: [3, 3, 3, 3, 3, 3, 3, 3],
       page: 1,
       count: 8,
-      // 每页6个
+      // 每页8个
     }),
 
     computed: {
@@ -95,16 +101,16 @@
     mounted () {
       window.addEventListener('scroll', this.windowScroll)
     },
+    beforeDestroy () {
+      window.removeEventListener('scroll', this.windowScroll)
+    },
     methods: {
       windowScroll () {
         // 滚动条距离页面顶部的距离
         // 以下写法原生兼容
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         return scrollTop
       },
-    },
-    beforeDestroy () {
-      window.removeEventListener('scroll', this.windowScroll)
     },
   }
 </script>

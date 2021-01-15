@@ -44,20 +44,23 @@
           </v-col>
 
           <v-col align-self="end">
-            <v-chip
-              class="text-uppercase ma-0"
-              color="primary"
-              label
-              small
-              @click.stop=""
-            >
-              <v-icon
-                dark
-                small
-              >
-                mdi-cart-plus
-              </v-icon>
-            </v-chip>
+<!--            <v-chip-->
+<!--              class="text-uppercase ma-0"-->
+<!--              color="primary"-->
+<!--              label-->
+<!--              small-->
+<!--              @click.stop=""-->
+<!--            >-->
+<!--              <v-icon-->
+<!--                dark-->
+<!--                small-->
+<!--              >-->
+<!--                mdi-cart-plus-->
+<!--              </v-icon>-->
+<!--            </v-chip>-->
+            <base-buy-dialog
+              :value="value"
+            ></base-buy-dialog>
           </v-col>
         </v-row>
       </v-img>
@@ -67,9 +70,11 @@
 
 <script>
   import BaseTimeCount from './base/TimeCount'
+  import BaseBuyDialog from './base/BuyDialog'
   export default {
     name: 'FeedCard',
     components: {
+      BaseBuyDialog,
       BaseTimeCount,
 
     },
@@ -82,19 +87,33 @@
         type: Object,
         default: () => ({}),
       },
+      status: {
+        // eslint-disable-next-line no-undef
+        type: Boolean,
+      },
     },
     computed: {
-      // eslint-disable-next-line vue/return-in-computed-property
-      endTime () {
+      // eslint-disable-next-line vue/no-dupe-keys,vue/return-in-computed-property
+      status () {
+        // eslint-disable-next-line no-unused-vars
+        const startTime = new Date(this.value.seckillStartTime)
+        // eslint-disable-next-line no-unused-vars
+        const endTime = new Date(this.value.seckillEndTime)
+        // eslint-disable-next-line no-unused-vars
+        const nowTime = new Date()
+        if ((nowTime.getTime() - endTime.getTime()) > 0) {
+          return false
+        } else if (status ^ ((nowTime.getTime() - startTime.getTime()) < 0)) {
+          return true
+        } else {
+          return false
+        }
       },
     },
     mounted () {
 
     },
     methods: {
-      getEndTime () {
-
-      },
     },
   }
 </script>
