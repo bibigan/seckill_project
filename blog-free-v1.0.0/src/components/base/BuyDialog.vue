@@ -34,14 +34,13 @@
       </template>
 
       <v-img
-        :src="require(`@/assets/articles/${value.hero}`)"
+        :src="require(`@/assets/articles/${value.img}`)"
         height="100%"
       />
 
       <v-card-title>{{ value.title }}</v-card-title>
 
       <v-card-text>
-
         <div class="my-4 subtitle-1">
           ￥ {{ value.price }}
         </div>
@@ -52,31 +51,34 @@
             dark
             small
             color="primary"
+            @click="minus"
           >
             <v-icon dark>
               mdi-minus
             </v-icon>
           </v-btn>
-          1
+          {{ number }}
           <v-btn
             class="mx-2"
             fab
             dark
             small
             color="indigo"
+            @click="plus"
           >
             <v-icon dark>
               mdi-plus
             </v-icon>
           </v-btn>
+          <span class="ml-3 subtitle-3">库存：{{value.stock}}</span>
         </div>
-<!--        <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
+        <!--        <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
       </v-card-text>
 
       <v-divider class="mx-4" />
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn
           color="blue darken-1"
           text
@@ -98,23 +100,32 @@
 <script>
   export default {
     name: 'BaseBuyDialog',
-    data () {
-      return {
-        dialog: false,
-        loading: false,
-        selection: 1,
-      }
-    },
     props: {
       value: {
         type: Object,
         default: () => ({}),
       },
     },
+    data () {
+      return {
+        dialog: false,
+        loading: false,
+        selection: 1,
+        number: 1,
+      }
+    },
     methods: {
       reserve () {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
+      },
+      minus () {
+        // eslint-disable-next-line eqeqeq
+        this.number = this.number == 0 ? 0 : this.number - 1
+      },
+      plus () {
+        // eslint-disable-next-line eqeqeq
+        this.number = this.number == this.value.stock ? this.number : this.number + 1
       },
     },
   }
