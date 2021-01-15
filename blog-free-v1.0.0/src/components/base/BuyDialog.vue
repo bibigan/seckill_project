@@ -5,21 +5,39 @@
     max-width="380px"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
-        color="primary"
-        dark
-        v-bind="attrs"
-        small
-        label
-        v-on="on"
-      >
-        <v-icon
+      <div v-if="show">
+        <v-btn
+          color="primary"
           dark
+          v-bind="attrs"
           small
+          label
+          v-on="on"
         >
-          mdi-cart-plus
-        </v-icon>
-      </v-btn>
+          <v-icon
+            dark
+            small
+          >
+            mdi-cart-plus
+          </v-icon>
+        </v-btn>
+      </div>
+      <div v-else>
+        <v-btn
+          depressed
+          disabled
+          small
+          label
+        >
+          Disabled
+<!--          <v-icon-->
+<!--            dark-->
+<!--            small-->
+<!--          >-->
+<!--            mdi-cart-plus-->
+<!--          </v-icon>-->
+        </v-btn>
+      </div>
     </template>
     <v-card
       :loading="loading"
@@ -105,6 +123,10 @@
         type: Object,
         default: () => ({}),
       },
+      status: {
+        type: Number,
+        required: true,
+      },
     },
     data () {
       return {
@@ -113,6 +135,12 @@
         selection: 1,
         number: 1,
       }
+    },
+    computed: {
+      show: function () {
+        // eslint-disable-next-line eqeqeq
+        return this.status == 0
+      },
     },
     methods: {
       reserve () {

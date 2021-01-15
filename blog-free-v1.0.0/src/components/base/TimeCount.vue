@@ -1,5 +1,5 @@
 <template>
-  <span>{{seckillString}} {{ time }}</span>
+  <span>{{ seckillString }} {{ time }}</span>
 </template>
 
 <script>
@@ -18,6 +18,7 @@
         time: '',
         flag: false,
         seckillString: '',
+        status: -2,
       }
     },
     mounted () {
@@ -26,6 +27,7 @@
           clearInterval(time)
         }
         this.getStatus()
+        this.sendMsg()
       }, 500)
     },
     methods: {
@@ -60,13 +62,20 @@
         const nowTime = new Date()
         if ((nowTime.getTime() - endTime.getTime()) > 0) {
           this.seckillString = '秒杀已结束'
+          this.status = 1
         } else if ((nowTime.getTime() - startTime.getTime()) > 0) {
           this.seckillString = '距离秒杀结束还有'
+          this.status = 0
           this.timeDown(endTime)
         } else {
           this.seckillString = '距离秒杀开始还有'
+          this.status = -1
           this.timeDown(startTime)
         }
+      },
+      sendMsg () {
+        // func: 是父组件指定的传数据绑定的函数，this.msg:子组件给父组件传递的数据
+        this.$emit('sendStatus', this.status)
       },
     },
   }

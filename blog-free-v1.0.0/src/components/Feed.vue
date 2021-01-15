@@ -85,9 +85,17 @@
         return Math.ceil(this.articles.length / this.count)
       },
       paginatedArticles () {
+        // var arr = new Array()
+        // for (var i = 0; i < this.articles.length; i++) {
+        //   const endTime = new Date(this.articles[i].seckillEndTime)
+        //   // const startTime = new Date(this.articles[i].seckillEndTime)
+        //   const nowTime = new Date()
+        //   if ((nowTime.getTime() - endTime.getTime()) < 0) {
+        //
+        //   }
+        // }
         const start = (this.page - 1) * this.count
         const stop = this.page * this.count
-
         return this.articles.slice(start, stop)
       },
     },

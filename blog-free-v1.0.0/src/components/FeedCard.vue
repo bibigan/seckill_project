@@ -30,8 +30,9 @@
               <base-time-count
                 :end-time=" value.seckillEndTime"
                 :start-time="value.seckillStartTime"
-                 style="color: aqua"
-               />
+                style="color: aqua"
+                @sendStatus="getStatus"
+              />
             </v-chip>
 
             <h3 class="title font-weight-bold mb-2">
@@ -44,23 +45,10 @@
           </v-col>
 
           <v-col align-self="end">
-<!--            <v-chip-->
-<!--              class="text-uppercase ma-0"-->
-<!--              color="primary"-->
-<!--              label-->
-<!--              small-->
-<!--              @click.stop=""-->
-<!--            >-->
-<!--              <v-icon-->
-<!--                dark-->
-<!--                small-->
-<!--              >-->
-<!--                mdi-cart-plus-->
-<!--              </v-icon>-->
-<!--            </v-chip>-->
             <base-buy-dialog
               :value="value"
-            ></base-buy-dialog>
+              :status="status"
+            />
           </v-col>
         </v-row>
       </v-img>
@@ -87,33 +75,21 @@
         type: Object,
         default: () => ({}),
       },
-      status: {
-        // eslint-disable-next-line no-undef
-        type: Boolean,
-      },
+    },
+    data () {
+      return {
+        status: -2,
+      }
     },
     computed: {
-      // eslint-disable-next-line vue/no-dupe-keys,vue/return-in-computed-property
-      status () {
-        // eslint-disable-next-line no-unused-vars
-        const startTime = new Date(this.value.seckillStartTime)
-        // eslint-disable-next-line no-unused-vars
-        const endTime = new Date(this.value.seckillEndTime)
-        // eslint-disable-next-line no-unused-vars
-        const nowTime = new Date()
-        if ((nowTime.getTime() - endTime.getTime()) > 0) {
-          return false
-        } else if (status ^ ((nowTime.getTime() - startTime.getTime()) < 0)) {
-          return true
-        } else {
-          return false
-        }
-      },
     },
     mounted () {
 
     },
     methods: {
+      getStatus (data) {
+        this.status = data
+      },
     },
   }
 </script>
