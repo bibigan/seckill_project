@@ -10,22 +10,22 @@ export default new Vuex.Store({
     items: [
       {
         text: '首页',
-        href: '#home',
+        href: 'home',
       },
       {
         // 跳转到首页的正在秒杀栏
         text: '正在秒杀',
-        href: '#about',
+        href: 'home#about',
       },
       {
         // 跳转到首页的即将秒杀栏
         text: '即将秒杀',
-        href: '#soon',
+        href: 'home#soon',
       },
       {
         // 跳转到我的订单页
         text: '我的订单',
-        href: '#about',
+        href: 'order',
       },
       {
         // 跳转到我的订单页

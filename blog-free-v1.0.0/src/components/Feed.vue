@@ -3,16 +3,16 @@
     <!--    商品-->
     <v-row>
       <v-col cols="12">
-        <slot />
+        <!--      引导栏和标题卡槽--><slot />
       </v-col>
+            <feed-card
+              v-for="(article, i) in paginatedArticles"
+              :key="article.title"
+              :size="layout[i]"
+              :value="article"
+              :stat="status"
+            />
 
-      <feed-card
-        v-for="(article, i) in paginatedArticles"
-        :key="article.title"
-        :size="layout[i]"
-        :value="article"
-        :stat="status"
-      />
     </v-row>
     <!--页码-->
     <v-row align="center">
@@ -69,13 +69,19 @@
         // eslint-disable-next-line no-undef
         type: Boolean,
       },
+      layout: {
+        type: Array,
+      },
+      count: {
+        type: Number,
+      },
     },
 
     data: () => ({
       // 每行卡片的个数
-      layout: [3, 3, 3, 3, 3, 3, 3, 3],
+      // layout: [1, 2, 3, 3, 3, 3, 3, 3],
       page: 1,
-      count: 8,
+      // count: 6,
       // 每页8个
     }),
 
@@ -85,15 +91,6 @@
         return Math.ceil(this.articles.length / this.count)
       },
       paginatedArticles () {
-        // var arr = new Array()
-        // for (var i = 0; i < this.articles.length; i++) {
-        //   const endTime = new Date(this.articles[i].seckillEndTime)
-        //   // const startTime = new Date(this.articles[i].seckillEndTime)
-        //   const nowTime = new Date()
-        //   if ((nowTime.getTime() - endTime.getTime()) < 0) {
-        //
-        //   }
-        // }
         const start = (this.page - 1) * this.count
         const stop = this.page * this.count
         return this.articles.slice(start, stop)

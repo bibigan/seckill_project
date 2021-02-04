@@ -7,21 +7,33 @@
     <articles
       :status="true"
     >
-<!--      引导区-->
-      <banner />
-      <about />
+      <feed
+        :status="true"
+        :layout="[3, 3, 3, 3, 3, 3, 3, 3]"
+        :count="8"
+      >
+        <!--      引导区-->
+        <banner />
+        <about />
+      </feed>
     </articles>
 
     <articles
       :status="false"
     >
-      <home-soon />
+      <feed
+        :status="true"
+        :layout="[3, 3, 3, 3, 3, 3, 3, 3]"
+        :count="8"
+      >
+        <home-soon />
+      </feed>
     </articles>
 
-<!--    订阅-->
-<!--    <subscribe />-->
+    <!--    订阅-->
+    <!--    <subscribe />-->
 
-<!--    <social />-->
+    <!--    <social />-->
     <core-footer />
 
     <core-cta />
@@ -44,6 +56,7 @@
       CoreDrawer: () => import('@/components/core/Drawer'),
       CoreFooter: () => import('@/components/core/Footer'),
       CoreAppBar: () => import('@/components/core/AppBar'),
+      Feed: () => import('@/components/Feed'),
     },
   }
 </script>

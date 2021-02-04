@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import LoginPage from '../views/LoginPage.vue'
 import SignupPage from '../views/SignupPage.vue'
+import OrderPage from '../views/OrderPage.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -10,7 +11,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home,
     },
@@ -23,6 +24,11 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: SignupPage,
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: OrderPage,
     },
   ],
 })
