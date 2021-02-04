@@ -4,9 +4,7 @@
 
     <core-drawer />
 
-    <articles
-      :status="true"
-    >
+    <articles>
       <feed
         :status="true"
         :layout="[3, 3, 3, 3, 3, 3, 3, 3]"
@@ -14,15 +12,13 @@
       >
         <!--      引导区-->
         <banner />
-        <about />
+        <about>正在秒杀</about>
       </feed>
     </articles>
 
-    <articles
-      :status="false"
-    >
+    <articles>
       <feed
-        :status="true"
+        :status="false"
         :layout="[3, 3, 3, 3, 3, 3, 3, 3]"
         :count="8"
       >

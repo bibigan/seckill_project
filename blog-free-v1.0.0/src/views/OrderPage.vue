@@ -7,7 +7,13 @@
     <articles
       :status="true"
     >
-      <about />
+      <order-feed
+        :status="false"
+        :layout="[1, 1]"
+        :count="3"
+      >
+        <about class="mt-10">我的订单</about>
+      </order-feed>
     </articles>
     <core-footer />
 
@@ -25,6 +31,7 @@
       CoreDrawer: () => import('@/components/core/Drawer'),
       CoreFooter: () => import('@/components/core/Footer'),
       CoreAppBar: () => import('@/components/core/AppBar'),
+      OrderFeed: () => import('@/components/OrderFeed'),
     },
   }
 </script>

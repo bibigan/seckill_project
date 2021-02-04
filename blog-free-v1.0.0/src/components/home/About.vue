@@ -4,7 +4,9 @@
     tag="section"
     class="mt-5"
   >
-    <base-subheading>正在秒杀</base-subheading>
+    <base-subheading>
+      <slot />
+    </base-subheading>
 
   </v-container>
 </template>

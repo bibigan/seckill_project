@@ -55,7 +55,7 @@
         <v-card-actions>
           <v-btn
             text
-            href="/"
+            href="/home"
           >
             取消
           </v-btn>
