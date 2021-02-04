@@ -4,6 +4,7 @@
     :md="size === 2 ? 6 : size === 3 ? 3 : undefined"
   >
     <base-card
+      id="basedCard"
       :height="value.prominent ? 450 : 300"
       color="grey lighten-1"
       dark
@@ -41,6 +42,7 @@
 
             <div class="caption">
               ￥{{ value.price }}<br>
+              {{show}} {{status}} {{stat}}
             </div>
           </v-col>
 
@@ -75,10 +77,14 @@
         type: Object,
         default: () => ({}),
       },
+      stat: {
+        type: Boolean,
+      },
     },
     data () {
       return {
-        status: -2,
+        status: 1,
+        show: false,
       }
     },
     computed: {
@@ -90,6 +96,14 @@
       getStatus (data) {
         this.status = data
       },
+    },
+    watch: {
+      // status: {
+      //   handler (newVal, oldVal) { // eslint-disable-line no-unused-vars
+      //     this.show = true
+      //     document.getElementById('basedCard').hidden()
+      //   },
+      // },
     },
   }
 </script>

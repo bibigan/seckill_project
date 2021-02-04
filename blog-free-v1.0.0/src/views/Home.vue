@@ -1,5 +1,9 @@
 <template>
   <div id="home">
+    <core-app-bar />
+
+    <core-drawer />
+
     <articles
       :status="true"
     >
@@ -18,6 +22,9 @@
 <!--    <subscribe />-->
 
 <!--    <social />-->
+    <core-footer />
+
+    <core-cta />
   </div>
 </template>
 
@@ -33,6 +40,10 @@
       Banner: () => import('@/components/home/Banner'),
       Social: () => import('@/components/home/Social'),
       Subscribe: () => import('@/components/home/Subscribe'),
+      CoreCta: () => import('@/components/core/Cta'),
+      CoreDrawer: () => import('@/components/core/Drawer'),
+      CoreFooter: () => import('@/components/core/Footer'),
+      CoreAppBar: () => import('@/components/core/AppBar'),
     },
   }
 </script>

@@ -149,7 +149,7 @@
       },
       minus () {
         // eslint-disable-next-line eqeqeq
-        this.number = this.number == 0 ? 0 : this.number - 1
+        this.number = this.number == 1 ? 1 : this.number - 1
       },
       plus () {
         // eslint-disable-next-line eqeqeq

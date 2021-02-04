@@ -2,7 +2,7 @@
   {
     "title": "海景小屋",
     "price": "5356.00",
-    "seckillEndTime": "2021-03-10 00:55:55",
+    "seckillEndTime": "2021-01-18 19:11:00",
     "seckillStartTime": "2021-01-15 17:57:55",
     "img": "moroccandays.jpg",
     "stock": "20"
@@ -18,8 +18,8 @@
   {
     "title": "春季巴黎",
     "price": "2124.00",
-    "seckillEndTime": "2021-01-13 00:55:55",
-    "seckillStartTime": "2020-12-21 00:00:00",
+    "seckillEndTime": "2022-01-19 00:55:55",
+    "seckillStartTime": "2021-01-16 00:00:00",
     "img": "christmas.jpg",
     "stock": "20"
   },
@@ -50,7 +50,7 @@
   {
     "title": "山壁小屋",
     "price": "678.00",
-    "seckillEndTime": "2021-01-12 00:55:55",
+    "seckillEndTime": "2022-01-12 00:55:55",
     "seckillStartTime": "2020-12-20 00:55:55",
     "img": "mountaincabin.jpg",
     "stock": "20"

@@ -27,6 +27,11 @@ export default new Vuex.Store({
         text: '我的订单',
         href: '#about',
       },
+      {
+        // 跳转到我的订单页
+        text: '登录',
+        href: 'login',
+      },
     ],
   },
   getters: {
@@ -51,7 +56,8 @@ export default new Vuex.Store({
     },
     // 导航栏的分类
     links: (state, getters) => {
-      return state.items.concat(getters.seckillEndTimes)
+      //  if (!getters.seckillEndTimes.find('login')) { return state.items.concat(getters.seckillEndTimes) }
+      return state.items.concat(getters.seckillEndTimes + '#')
     },
   },
   mutations: {

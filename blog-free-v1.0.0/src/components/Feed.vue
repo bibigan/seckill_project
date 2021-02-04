@@ -11,7 +11,7 @@
         :key="article.title"
         :size="layout[i]"
         :value="article"
-        :status="status"
+        :stat="status"
       />
     </v-row>
     <!--页码-->

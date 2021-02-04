@@ -54,7 +54,6 @@
 
   export default {
     name: 'CoreAppBar',
-
     computed: {
       ...mapGetters(['links']),
     },

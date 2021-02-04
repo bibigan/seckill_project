@@ -46,7 +46,7 @@
       onClick (e, item) {
         e.stopPropagation()
 
-        if (item.to === '/') {
+        if (item.to === '/home') {
           this.$vuetify.goTo(0)
           this.setDrawer(false)
           return

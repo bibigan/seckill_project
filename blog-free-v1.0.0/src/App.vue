@@ -1,14 +1,6 @@
 <template>
   <v-app>
-    <core-app-bar />
-
-    <core-drawer />
-
-    <core-view />
-
-    <core-footer />
-
-    <core-cta />
+    <router-view />
   </v-app>
 </template>
 
