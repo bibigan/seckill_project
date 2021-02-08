@@ -37,4 +37,16 @@ public class UsersServiceImpl implements UsersService {
     public List<Users> list() {
         return usersMapper.findAll();
     }
+
+    @Override
+    public Boolean isExist(String name) {
+        List<Users> usersList = getByName(name);
+        return !usersList.isEmpty();
+    }
+
+    public List<Users> getByName(String name) {
+        return usersMapper.findByName(name);
+    }
+
+    public Users getByNameAndPassword(String name, String password){return usersMapper.findByNameAndPassword(name, password);}
 }

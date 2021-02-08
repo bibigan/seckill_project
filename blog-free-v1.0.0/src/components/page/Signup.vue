@@ -93,6 +93,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'SignupVue',
     data: () => ({
@@ -141,6 +142,47 @@
         })
         // 通过 axios发送user对象到 forelogin
         // 3. 如果登陆成功，则跳转到首页 home, 否则显示错误信息
+        this.login1()
+      },
+      login1 () {
+        // eslint-disable-next-line no-unused-vars
+        var params = {
+          user_name: this.name, user_password: this.password, user_email: this.email,
+        }
+        // eslint-disable-next-line no-undef
+        // console.log('email:' + this.email)
+        this.$axios.post('http://127.0.0.1:8088/thymeleaf/register', params)
+          .then(response => {
+            const { data } = response
+            // console.log('data:' + data)
+            // eslint-disable-next-line eqeqeq
+            if (data == '0') {
+              location.href = 'home'
+              // eslint-disable-next-line eqeqeq
+            } else if (data == '1') {
+              alert('用户名' + this.name + '已经被使用,不能使用')
+            } else {
+              console.log('访问失败，data：' + data)
+            }
+          })
+      },
+      login () {
+        // eslint-disable-next-line no-unused-vars
+        var params = {
+          user_name: this.name, user_password: this.password, user_email: this.email,
+        }
+        const res = this.$H.post('/register', params)
+        // eslint-disable-next-line no-const-assign
+        console.log('!!res:' + res.code)
+        // eslint-disable-next-line eqeqeq
+        if (res == '0') {
+          location.href = 'home'
+          // eslint-disable-next-line eqeqeq
+        } else if (res == '1') {
+          alert('用户名' + this.users.name + '已经被使用,不能使用')
+        } else {
+          console.log('访问失败，res：' + res)
+        }
       },
     },
   }

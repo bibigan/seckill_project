@@ -62,10 +62,16 @@
       ...mapMutations(['toggleDrawer']),
       onClick (e, item) {
         e.stopPropagation()
-
         if (item.to || !item.href) return
-
-        this.$vuetify.goTo(item.href.endsWith('!') ? 0 : item.href)
+        console.log('item.href:' + item.href)
+        // eslint-disable-next-line eqeqeq
+        if (this.$route.path == '/home') {
+          console.log('是是是')
+          this.$vuetify.goTo(item.href.endsWith('!') ? 0 : item.href)
+        } else {
+          console.log('否否否')
+          this.$router.push('/home' + item.href)
+        }
       },
     },
   }

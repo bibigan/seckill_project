@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
+// mutations
 
 export default new Vuex.Store({
   state: {
@@ -16,12 +17,12 @@ export default new Vuex.Store({
       {
         // 跳转到首页的正在秒杀栏
         text: '正在秒杀',
-        href: 'home#about',
+        href: '#about',
       },
       {
         // 跳转到首页的即将秒杀栏
         text: '即将秒杀',
-        href: 'home#soon',
+        href: '#soon',
       },
       {
         // 跳转到我的订单页
@@ -49,7 +50,7 @@ export default new Vuex.Store({
 
         seckillEndTimes.push({
           text,
-          href: '#home',
+          href: '#about',
         })
       }
       // 分类个数
@@ -60,10 +61,16 @@ export default new Vuex.Store({
       //  if (!getters.seckillEndTimes.find('login')) { return state.items.concat(getters.seckillEndTimes) }
       return state.items.concat(getters.seckillEndTimes + '#')
     },
+    getValues: (state) => {
+      return state.articles
+    },
   },
   mutations: {
     setDrawer: (state, payload) => (state.drawer = payload),
     toggleDrawer: state => (state.drawer = !state.drawer),
+    setValues (state, v) {
+      state.articles = v
+    },
   },
   actions: {
 

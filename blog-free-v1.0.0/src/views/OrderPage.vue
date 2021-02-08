@@ -9,7 +9,7 @@
     >
       <order-feed
         :status="false"
-        :layout="[1, 1]"
+        :layout="[1, 1, 1]"
         :count="3"
       >
         <about class="mt-10">我的订单</about>

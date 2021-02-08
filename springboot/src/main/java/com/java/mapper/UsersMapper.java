@@ -11,7 +11,7 @@ public interface UsersMapper {
     @Select("select * from users ")
     List<Users> findAll();
 
-    @Insert(" insert into users ( uname ) values (#{uname}) ")
+    @Insert(" insert into users ( user_name,user_password,user_email ) values (#{user_name},#{user_password},#{user_email}) ")
     public int save(Users users);
 
     @Delete(" delete from users where id= #{id} ")
@@ -20,6 +20,12 @@ public interface UsersMapper {
     @Select("select * from users where id= #{id} ")
     public Users get(int id);
 
-    @Update("update users set name=#{uname} where id=#{id} ")
+    @Update("update users set user_name=#{user_name},user_password=#{user_password},user_email=#{user_email} where id=#{id} ")
     public int update(Users users);
+
+    @Select("select * from users where user_name= #{user_name} ")
+    public List<Users> findByName(String user_name);
+
+    @Select("select * from users where user_name= #{name} and user_password= #{password}")
+    public Users findByNameAndPassword(String name, String password);
 }

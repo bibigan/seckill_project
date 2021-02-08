@@ -38,6 +38,7 @@
 
 <script>
   import HomeSoon from '../components/home/Soon'
+  import { mapGetters, mapState } from 'vuex'
   export default {
     name: 'Home',
 
@@ -53,6 +54,22 @@
       CoreFooter: () => import('@/components/core/Footer'),
       CoreAppBar: () => import('@/components/core/AppBar'),
       Feed: () => import('@/components/Feed'),
+    },
+    mounted () {
+      this.initData()
+    },
+    methods: {
+      async initData () {
+        // eslint-disable-next-line no-unused-vars
+        const data = await this.$H.get('/items')
+        this.$store.commit('setValues', data)
+      },
+    },
+    computed: {
+      // eslint-disable-next-line no-undef
+      ...mapGetters({ getValues: 'getValues' }),
+      // eslint-disable-next-line no-undef
+      ...mapState(['articles']),
     },
   }
 </script>

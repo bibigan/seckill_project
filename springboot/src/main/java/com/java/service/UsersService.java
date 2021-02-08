@@ -8,4 +8,7 @@ public interface UsersService {
     void update(Users c);
     Users get(int id);
     List<Users> list();
+    Boolean isExist(String name);
+    Users getByNameAndPassword(String name, String password);
+
 }
