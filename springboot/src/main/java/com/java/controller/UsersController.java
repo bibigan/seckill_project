@@ -51,7 +51,7 @@ public class UsersController {
     @PostMapping("/register")
     public String add(@RequestBody Users user) throws Exception {
         System.out.println("访问/register");
-        System.out.println("参数："+user.getUser_name()+","+user.getUser_password()+","+user.getUser_email());
+//        System.out.println("参数："+user.getUser_name()+","+user.getUser_password()+","+user.getUser_email());
         String name =  user.getUser_name();
 //        String password = user.getUser_password();
         name = HtmlUtils.htmlEscape(name);
@@ -88,16 +88,21 @@ public class UsersController {
     3.2 如果对象存在，则把用户对象放在 session里，并且返回成功信息
     * */
     @PostMapping("/login")
-    public Object login(@RequestBody Users users, HttpSession session){
-        String name=users.getUser_name();
-        name = HtmlUtils.htmlEscape(name);
-        String password=users.getUser_password();
-        Users res=usersService.getByNameAndPassword(name,password);
-        if(res==null){
+    public String login(@RequestBody Users users, HttpSession session){
+        System.out.println("访问/login");
+
+        String user_name=users.getUser_name();
+        user_name = HtmlUtils.htmlEscape(user_name);
+        String user_password=users.getUser_password();
+        System.out.println("username:"+users.getUser_name());
+        Users res=usersService.getByName(user_name);
+        System.out.println("username:"+users.getUser_name());
+        if(null==res||!users.getUser_password().equals(res.getUser_password())){
             String message ="账号密码错误";
             return Result.fail(message);
         }
         else{
+            System.out.println("user："+res);
             session.setAttribute("user", res);
             return Result.success();
         }

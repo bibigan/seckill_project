@@ -77,4 +77,9 @@ public class Users {
         this.user_password = user_password;
         this.user_email = user_email;
     }
+
+    public Users(String user_name, String user_password) {
+        this.user_name = user_name;
+        this.user_password = user_password;
+    }
 }

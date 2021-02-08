@@ -56,16 +56,16 @@
         color="purple"
         clearable
       />
-      <v-text-field
-        ref="email"
-        v-model="email"
-        :rules="[() => !!email || '必填项']"
-        :error-messages="errorMessages"
-        label="邮箱"
-        required
-        prepend-icon="mdi-email"
-        color="purple"
-      />
+<!--      <v-text-field-->
+<!--        ref="email"-->
+<!--        v-model="email"-->
+<!--        :rules="[() => !!email || '必填项']"-->
+<!--        :error-messages="errorMessages"-->
+<!--        label="邮箱"-->
+<!--        required-->
+<!--        prepend-icon="mdi-email"-->
+<!--        color="purple"-->
+<!--      />-->
       <v-text-field
         ref="password"
         v-model="password"
@@ -133,7 +133,7 @@
       name: null,
       formHasErrors: false,
       password: null,
-      email: null,
+      // email: null,
     }),
 
     computed: {
@@ -141,7 +141,7 @@
         return {
           name: this.name,
           password: this.password,
-          email: this.email,
+          // email: this.email,
         }
       },
     },
@@ -172,6 +172,28 @@
         })
         // 通过 axios发送user对象到 forelogin
         // 3. 如果登陆成功，则跳转到首页 home, 否则显示错误信息
+        this.login()
+      },
+      login () {
+        // eslint-disable-next-line no-unused-vars
+        var params = {
+          user_name: this.name, user_password: this.password,
+        }
+        // eslint-disable-next-line no-undef
+        this.$axios.post('http://127.0.0.1:8088/thymeleaf/login', params)
+          .then(response => {
+            const { data } = response
+            // console.log('data:' + data)
+            // eslint-disable-next-line eqeqeq
+            if (data == '0') {
+              location.href = 'home'
+              // eslint-disable-next-line eqeqeq
+            } else if (data == '1') {
+              alert('账号密码错误')
+            } else {
+              console.log('访问失败，data：' + data)
+            }
+          })
       },
     },
   }

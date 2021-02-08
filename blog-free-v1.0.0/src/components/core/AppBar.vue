@@ -21,7 +21,7 @@
         />
 
         <v-btn
-          v-for="(link, i) in links"
+          v-for="(link, i) in LinkList"
           :key="i"
           v-bind="link"
           class="hidden-sm-and-down"
@@ -56,6 +56,11 @@
     name: 'CoreAppBar',
     computed: {
       ...mapGetters(['links']),
+      LinkList () {
+        return this.links.filter(item => {
+          return this.checkLink(item)
+        })
+      },
     },
 
     methods: {
@@ -72,6 +77,13 @@
           console.log('否否否')
           this.$router.push('/home' + item.href)
         }
+      },
+      checkLink (link) {
+        // 已登录式屏蔽登录,未登录是屏蔽退出
+        // eslint-disable-next-line eqeqeq
+        if (this.sessionStorage.getItem('user') != null && link.text == '登录') { return false }
+        // eslint-disable-next-line eqeqeq
+        if (this.sessionStorage.getItem('user') == null && link.text == '退出') { return false }
       },
     },
   }

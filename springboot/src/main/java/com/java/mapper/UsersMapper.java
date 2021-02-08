@@ -24,8 +24,8 @@ public interface UsersMapper {
     public int update(Users users);
 
     @Select("select * from users where user_name= #{user_name} ")
-    public List<Users> findByName(String user_name);
+    public Users findByName(String user_name);
 
-    @Select("select * from users where user_name= #{name} and user_password= #{password}")
-    public Users findByNameAndPassword(String name, String password);
+    @Select("select * from users where user_name= #{user_name} and user_password= #{user_password}")
+    public Users findByNameAndPassword(String user_name, String user_password);
 }

@@ -10,5 +10,6 @@ public interface UsersService {
     List<Users> list();
     Boolean isExist(String name);
     Users getByNameAndPassword(String name, String password);
+    Users getByName(String name);
 
 }

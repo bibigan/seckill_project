@@ -40,13 +40,17 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Boolean isExist(String name) {
-        List<Users> usersList = getByName(name);
-        return !usersList.isEmpty();
+        Users user = getByName(name);
+        return null!=user;
     }
-
-    public List<Users> getByName(String name) {
+    @Override
+    public Users getByName(String name) {
         return usersMapper.findByName(name);
     }
 
-    public Users getByNameAndPassword(String name, String password){return usersMapper.findByNameAndPassword(name, password);}
+    @Override
+    public Users getByNameAndPassword(String name, String password){
+        System.out.println("用户："+usersMapper.findByNameAndPassword(name, password));
+        return usersMapper.findByNameAndPassword(name, password);
+    }
 }

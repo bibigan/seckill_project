@@ -142,9 +142,9 @@
         })
         // 通过 axios发送user对象到 forelogin
         // 3. 如果登陆成功，则跳转到首页 home, 否则显示错误信息
-        this.login1()
+        this.signup()
       },
-      login1 () {
+      signup () {
         // eslint-disable-next-line no-unused-vars
         var params = {
           user_name: this.name, user_password: this.password, user_email: this.email,

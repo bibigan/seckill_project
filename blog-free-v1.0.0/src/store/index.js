@@ -34,6 +34,11 @@ export default new Vuex.Store({
         text: '登录',
         href: 'login',
       },
+      {
+        // 跳转到我的订单页
+        text: '退出',
+        href: 'home',
+      },
     ],
   },
   getters: {
