@@ -27,5 +27,5 @@ public interface UsersMapper {
     public Users findByName(String user_name);
 
     @Select("select * from users where user_name= #{user_name} and user_password= #{user_password}")
-    public Users findByNameAndPassword(String user_name, String user_password);
+    public Users findByNameAndPassword(@Param("user_name")String user_name, @Param("user_password")String user_password);
 }

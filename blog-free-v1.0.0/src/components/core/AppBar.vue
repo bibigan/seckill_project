@@ -21,7 +21,7 @@
         />
 
         <v-btn
-          v-for="(link, i) in LinkList"
+          v-for="(link, i) in links"
           :key="i"
           v-bind="link"
           class="hidden-sm-and-down"
@@ -31,6 +31,20 @@
           {{ link.text }}
         </v-btn>
 
+        <v-btn
+          class="hidden-sm-and-down"
+          text
+          @click="exit"
+        >
+          退出登录
+        </v-btn>
+        <v-btn
+          class="hidden-sm-and-down"
+          text
+          @click="test"
+        >
+          携带token的测试请求
+        </v-btn>
         <v-spacer />
 
         <v-text-field
@@ -84,6 +98,20 @@
         if (this.sessionStorage.getItem('user') != null && link.text == '登录') { return false }
         // eslint-disable-next-line eqeqeq
         if (this.sessionStorage.getItem('user') == null && link.text == '退出') { return false }
+      },
+      exit () {
+        localStorage.removeItem('Authorization')
+        this.$router.push('/login')
+      },
+      test () {
+        this.$axios({
+          method: 'post',
+          url: 'http://127.0.0.1:8088/thymeleaf/test',
+        }).then(function (res) {
+          console.log('res', res)
+        }).catch(function (err) {
+          console.log('err', err)
+        })
       },
     },
   }

@@ -1,9 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-Vue.use(Vuex)
 // mutations
-
+import axios from 'axios'
+// 添加请求拦截器，在请求头中加token
+axios.interceptors.request.use(
+  config => {
+    if (localStorage.getItem('Authorization')) {
+      config.headers.token = localStorage.getItem('Authorization')
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  })
+Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     articles: require('@/data/articles.json'),
@@ -29,17 +39,19 @@ export default new Vuex.Store({
         text: '我的订单',
         href: 'order',
       },
-      {
-        // 跳转到我的订单页
-        text: '登录',
-        href: 'login',
-      },
-      {
-        // 跳转到我的订单页
-        text: '退出',
-        href: 'home',
-      },
+      // {
+      //   // 跳转到我的订单页
+      //   text: '登录',
+      //   href: 'login',
+      // },
+      // {
+      //   // 跳转到我的订单页
+      //   text: '退出',
+      //   href: 'home',
+      // },
     ],
+    // 存储token
+    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
   },
   getters: {
     seckillEndTimes: state => {
@@ -76,8 +88,21 @@ export default new Vuex.Store({
     setValues (state, v) {
       state.articles = v
     },
+    // 修改token，并将token存入localStorage
+    changeLogin (state, user) {
+      state.Authorization = user.Authorization
+      localStorage.setItem('Authorization', user.Authorization)
+    },
+    setArticles (state, articles) {
+      state.articles = articles
+    },
   },
   actions: {
-
+    setArticles (context) {
+      axios.get('http://127.0.0.1:8088/thymeleaf/items').then(response => {
+        // eslint-disable-next-line no-unused-vars
+        context.commit('setValues', response.data.result)
+      })
+    },
   },
 })

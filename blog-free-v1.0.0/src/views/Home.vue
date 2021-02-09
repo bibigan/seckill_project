@@ -56,12 +56,25 @@
       Feed: () => import('@/components/Feed'),
     },
     mounted () {
-      this.initData()
+      // this.getItems()
+      this.$store.dispatch('setArticles')
     },
     methods: {
-      async initData () {
+      getItems () {
+        this.$axios({
+          method: 'get',
+          url: 'http://127.0.0.1:8088/thymeleaf/items',
+          data: null,
+        }).then(function (res) {
+          const data = res
+          this.$store.commit('setValues', data)
+        }).catch(function (err) {
+          console.log('err', err)
+        })
+      },
+      initData () {
         // eslint-disable-next-line no-unused-vars
-        const data = await this.$H.get('/items')
+        const data = this.$H.get('/items')
         this.$store.commit('setValues', data)
       },
     },

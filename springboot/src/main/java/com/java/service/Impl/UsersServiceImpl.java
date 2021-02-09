@@ -50,7 +50,6 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users getByNameAndPassword(String name, String password){
-        System.out.println("用户："+usersMapper.findByNameAndPassword(name, password));
         return usersMapper.findByNameAndPassword(name, password);
     }
 }

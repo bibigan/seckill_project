@@ -1,7 +1,11 @@
 package com.java.controller;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.pojo.Item;
 import com.java.pojo.ItemInVuex;
 import com.java.pojo.Item_kill;
@@ -10,17 +14,9 @@ import com.java.service.ItemService;
 import com.java.service.Item_killService;
 import com.java.service.UsersService;
 import com.java.util.Result;
+import com.java.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
@@ -87,25 +83,53 @@ public class UsersController {
     3.1 如果对象为空，则返回错误信息
     3.2 如果对象存在，则把用户对象放在 session里，并且返回成功信息
     * */
+//    @PostMapping("/login")
+//    public String login(@RequestBody Users users, HttpSession session){
+//        System.out.println("访问/login");
+//
+//        String user_name=users.getUser_name();
+//        user_name = HtmlUtils.htmlEscape(user_name);
+//        String user_password=users.getUser_password();
+//        System.out.println("username:"+users.getUser_name());
+//        Users res=usersService.getByName(user_name);
+//        System.out.println("username:"+users.getUser_name());
+//        if(null==res||!users.getUser_password().equals(res.getUser_password())){
+//            String message ="账号密码错误";
+//            return Result.fail(message);
+//        }
+//        else{
+//            System.out.println("user："+res);
+//            session.setAttribute("user", res);
+//            return Result.success();
+//        }
+//    }
     @PostMapping("/login")
-    public String login(@RequestBody Users users, HttpSession session){
-        System.out.println("访问/login");
+    @ResponseBody
+    public String login(@RequestHeader Map<String,Object> he,@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        System.out.println("访问login");
+        String username=(String)para.get("user_name");
+        username = HtmlUtils.htmlEscape(username);
+        String password=(String)para.get("user_password");
 
-        String user_name=users.getUser_name();
-        user_name = HtmlUtils.htmlEscape(user_name);
-        String user_password=users.getUser_password();
-        System.out.println("username:"+users.getUser_name());
-        Users res=usersService.getByName(user_name);
-        System.out.println("username:"+users.getUser_name());
-        if(null==res||!users.getUser_password().equals(res.getUser_password())){
-            String message ="账号密码错误";
-            return Result.fail(message);
+        Users res=usersService.getByNameAndPassword(username,password);
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        if(null!=res){
+            System.out.println("登录成功！");
+            String token= TokenUtil.sign(res);
+            HashMap<String,Object> hs=new HashMap<>();
+            hs.put("token","token"+token);
+            return objectMapper.writeValueAsString(hs);
         }
-        else{
-            System.out.println("user："+res);
-            session.setAttribute("user", res);
-            return Result.success();
-        }
+        return "error";
+    }
+    @PostMapping("/test")
+    @ResponseBody
+    public String test(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        HashMap<String,Object> hs=new HashMap<>();
+        hs.put("data","data");
+        ObjectMapper objectMapper=new ObjectMapper();
+        return objectMapper.writeValueAsString(hs);
     }
     @GetMapping("/items")
     public Object listItems() throws Exception {

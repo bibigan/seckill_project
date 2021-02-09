@@ -82,4 +82,12 @@ public class Users {
         this.user_name = user_name;
         this.user_password = user_password;
     }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "user_name='" + user_name + '\'' +
+                ", user_email='" + user_email + '\'' +
+                '}';
+    }
 }
