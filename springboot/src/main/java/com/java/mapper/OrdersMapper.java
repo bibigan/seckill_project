@@ -23,4 +23,7 @@ public interface OrdersMapper {
 
     @Update("update orders set orders_status=#{orders_status} where id= #{id} ")
     public int update(Orders p);
+
+    @Select("select * from orders where user_id= #{uid} ")
+    public List<Orders> getByUid(int uid);
 }

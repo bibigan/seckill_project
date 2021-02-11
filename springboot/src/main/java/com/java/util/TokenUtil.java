@@ -13,6 +13,8 @@ public class TokenUtil {
     private static final long EXPIRE_TIME= 10*60*60*1000;
     private static final String TOKEN_SECRET="txdy";  //密钥盐
 
+    private static String userName="";
+
     /**
      * 签名生成
      * @param user
@@ -47,10 +49,12 @@ public class TokenUtil {
             DecodedJWT jwt = verifier.verify(token);
             System.out.println("认证通过：");
             System.out.println("username: " + jwt.getClaim("username").asString());
+            userName=jwt.getClaim("username").asString();
             System.out.println("过期时间：      " + jwt.getExpiresAt());
             return true;
         } catch (Exception e){
             System.out.println("验证不通过："+e);
+            userName="";
             return false;
         }
     }
@@ -60,5 +64,9 @@ public class TokenUtil {
             return StringUtils.substring(v,5);
         }
         return "";
+    }
+
+    public static String getUserName() {
+        return userName;
     }
 }

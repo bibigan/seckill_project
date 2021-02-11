@@ -10,4 +10,5 @@ public interface OrdersService {
     void update(Orders c);
     Orders get(int id);
     List<Orders> list();
+    List<Orders> listByUid(int uid);
 }

@@ -91,6 +91,9 @@ export default new Vuex.Store({
     setValues (state, v) {
       state.articles = v
     },
+    setOrder (state, v) {
+      state.order = v
+    },
     // 修改token，并将token存入localStorage
     changeLogin (state, user) {
       state.Authorization = user.Authorization
@@ -99,7 +102,7 @@ export default new Vuex.Store({
     setArticles (state, articles) {
       state.articles = articles
     },
-    setUserName (state, userName) {
+    setUser (state, userName) {
       state.userName = userName
       localStorage.setItem('userName', userName)
     },

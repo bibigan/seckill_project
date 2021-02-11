@@ -6,12 +6,10 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.java.pojo.Item;
-import com.java.pojo.ItemInVuex;
-import com.java.pojo.Item_kill;
-import com.java.pojo.Users;
+import com.java.pojo.*;
 import com.java.service.ItemService;
 import com.java.service.Item_killService;
+import com.java.service.OrdersService;
 import com.java.service.UsersService;
 import com.java.util.Result;
 import com.java.util.TokenUtil;
@@ -32,7 +30,8 @@ public class UsersController {
     ItemService itemService;
     @Autowired
     Item_killService item_killService;
-
+    @Autowired
+    OrdersService ordersService;
     @GetMapping("/users")
     public String listUsers() throws Exception {
         String jsonString=JSON.toJSONString(usersService.list());
@@ -148,9 +147,21 @@ public class UsersController {
         System.out.println(JSON.toJSONString(items));
         return items;
     }
-    @GetMapping("/orders")
-    public Object listOrders(HttpSession session) throws Exception {
-        Users users=(Users) session.getAttribute("user");
-        return null;
+    @GetMapping("/order")
+    public Object listOrders() throws Exception {
+//        Users users=(Users) session.getAttribute("user");
+        //先根据uid找到其所有的orders,遍历os,依次设置ocode，number，create_time
+        //期间通过item_id找到对应的item，设置title,img,price
+        System.out.println("访问/order");
+        String userName=TokenUtil.getUserName();
+        int user_id=usersService.getByName(userName).getId();
+        List<OrdersInVuex> orders=new ArrayList<>();
+        List<Orders> ordersList=ordersService.listByUid(user_id);
+        for(Orders o:ordersList){
+            Item item=itemService.get(o.getItem_id());
+            OrdersInVuex ordersInVuex=new OrdersInVuex(item.getItem_title(),item.getItem_img(),item.getItem_price(),o.getOrders_create_time(),o.getOrders_ocode(),o.getOrders_number());
+            orders.add(ordersInVuex);
+        }
+        return orders;
     }
 }
