@@ -44,84 +44,90 @@
         </v-card-actions>
       </v-card>
     </v-card-title><br>
-    <v-card-text class="my-4">
-      <v-text-field
-        ref="name"
-        v-model="name"
-        :rules="[() => !!name || '必填项']"
-        :error-messages="errorMessages"
-        label="用户名"
-        required
-        prepend-icon="mdi-face"
-        color="purple"
-        clearable
-      />
-      <!--      <v-text-field-->
-      <!--        ref="email"-->
-      <!--        v-model="email"-->
-      <!--        :rules="[() => !!email || '必填项']"-->
-      <!--        :error-messages="errorMessages"-->
-      <!--        label="邮箱"-->
-      <!--        required-->
-      <!--        prepend-icon="mdi-email"-->
-      <!--        color="purple"-->
-      <!--      />-->
-      <v-text-field
-        ref="password"
-        v-model="password"
-        :rules="[() => !!password || '必填项',
-                 () => !!password && password.length <= 10 || '密码不多于10位',
-                 () => !!password && password.length > 4 || '密码不少于5位']"
-        :error-messages="errorMessages"
-        label="密码"
-        counter="10"
-        type="password"
-        required
-        prepend-icon="mdi-lock-outline"
-        color="purple"
-        clearable
-      />
-      <!--      </v-card-title>-->
-      <v-card-actions>
-        <v-row justify="center">
-          <v-slide-x-reverse-transition>
-            <v-tooltip
-              v-if="formHasErrors"
-              left
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
+      <v-card-text class="my-4">
+        <v-text-field
+          ref="name"
+          v-model="name"
+          :rules="[() => !!name || '必填项']"
+          :error-messages="errorMessages"
+          label="用户名"
+          required
+          prepend-icon="mdi-face"
+          color="purple"
+          clearable
+        />
+        <!--      <v-text-field-->
+        <!--        ref="email"-->
+        <!--        v-model="email"-->
+        <!--        :rules="[() => !!email || '必填项']"-->
+        <!--        :error-messages="errorMessages"-->
+        <!--        label="邮箱"-->
+        <!--        required-->
+        <!--        prepend-icon="mdi-email"-->
+        <!--        color="purple"-->
+        <!--      />-->
+        <v-text-field
+          ref="password"
+          v-model="password"
+          :rules="[() => !!password || '必填项',
+                   () => !!password && password.length <= 10 || '密码不多于10位',
+                   () => !!password && password.length > 4 || '密码不少于5位']"
+          :error-messages="errorMessages"
+          label="密码"
+          counter="10"
+          type="password"
+          required
+          prepend-icon="mdi-lock-outline"
+          color="purple"
+          clearable
+        />
+        <!--      </v-card-title>-->
+        <v-card-actions>
+          <v-row justify="center">
+            <v-slide-x-reverse-transition>
+              <v-tooltip
+                v-if="formHasErrors"
+                left
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    class="my-0"
+                    v-bind="attrs"
+                    @click="resetForm"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-refresh</v-icon>
+                  </v-btn>
+                </template>
+                <span>清空</span>
+              </v-tooltip>
+            </v-slide-x-reverse-transition>
+            <v-btn
+              normal
+              text
+              color="success"
+              @click="submit"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  class="my-0"
-                  v-bind="attrs"
-                  @click="resetForm"
-                  v-on="on"
-                >
-                  <v-icon>mdi-refresh</v-icon>
-                </v-btn>
-              </template>
-              <span>清空</span>
-            </v-tooltip>
-          </v-slide-x-reverse-transition>
-          <v-btn
-            normal
-            text
-            color="success"
-            @click="submit"
-          >
-            登录
-          </v-btn>
-          <v-btn
-            normal
-            text
-            href="/signup"
-            color="blue"
-          >
-            还没有账号？去注册
-          </v-btn>
-        </v-row>
-      </v-card-actions>
-    </v-card-text>
+              登录
+            </v-btn>
+            <v-btn
+              normal
+              text
+              href="/signup"
+              color="blue"
+            >
+              还没有账号？去注册
+            </v-btn>
+          </v-row>
+        </v-card-actions>
+      </v-card-text>
+    </v-form>
   </v-card>
 </template>
 
@@ -137,6 +143,7 @@
       password: null,
       // email: null,
       userToken: '',
+      valid: false, // 表单校验结果标记
     }),
     computed: {
       form () {
@@ -156,6 +163,7 @@
 
     methods: {
       ...mapMutations(['changeLogin']),
+      ...mapMutations(['setUserName']),
       resetForm () {
         this.errorMessages = []
         this.formHasErrors = false
@@ -174,7 +182,13 @@
         })
         // 通过 axios发送user对象到 forelogin
         // 3. 如果登陆成功，则跳转到首页 home, 否则显示错误信息
-        this.submitForm()
+        console.log('valid:' + this.valid + ', formHasErrors:' + this.formHasErrors)
+        // eslint-disable-next-line eqeqeq
+        if (this.formHasErrors == false && this.valid == true) {
+          this.submitForm()
+        } else {
+          alert('请完善信息')
+        }
       },
       login () {
         // eslint-disable-next-line no-unused-vars
@@ -211,16 +225,17 @@
           if (res.data == 'error') {
             alert('密码或用户名错误')
           } else {
-            console.log('login结果:' + res.data)
             v.userToken = res.data.token
+            console.log('token：' + v.userToken)
             // 将用户token保存到vuex中
+            v.setUserName(params.user_name)
             v.changeLogin({ Authorization: v.userToken })
-            alert('登录成功，token：' + v.userToken)
+            alert('登录成功!')
             v.$router.push('/home')
           }
         }).catch(function (err) {
           console.log('err', err)
-          alert('密码或用户名错误')
+          alert('错误')
         })
       },
     },

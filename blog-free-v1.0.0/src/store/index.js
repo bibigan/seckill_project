@@ -16,6 +16,7 @@ axios.interceptors.request.use(
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
+    userName: '',
     articles: require('@/data/articles.json'),
     order: require('@/data/order.json'),
     drawer: false,
@@ -39,16 +40,15 @@ export default new Vuex.Store({
         text: '我的订单',
         href: 'order',
       },
-      // {
-      //   // 跳转到我的订单页
-      //   text: '登录',
-      //   href: 'login',
-      // },
-      // {
-      //   // 跳转到我的订单页
-      //   text: '退出',
-      //   href: 'home',
-      // },
+      {
+        text: '当前用户：',
+        href: '#about',
+      },
+      {
+        // 跳转到我的订单页
+        text: '退出登录',
+        href: 'login',
+      },
     ],
     // 存储token
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
@@ -81,6 +81,9 @@ export default new Vuex.Store({
     getValues: (state) => {
       return state.articles
     },
+    getUserName: (state) => {
+      return state.userName
+    },
   },
   mutations: {
     setDrawer: (state, payload) => (state.drawer = payload),
@@ -95,6 +98,10 @@ export default new Vuex.Store({
     },
     setArticles (state, articles) {
       state.articles = articles
+    },
+    setUserName (state, userName) {
+      state.userName = userName
+      localStorage.setItem('userName', userName)
     },
   },
   actions: {

@@ -8,6 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -36,7 +37,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             json.put("msg","token verify fail");
             json.put("code","50000");
             response.getWriter().append(json.toJSONString());
-            System.out.println("认证失败，未通过拦截器");
+            System.out.println("认证失败，未通过拦截器"+ new Date(System.currentTimeMillis()).toString());
         }catch (Exception e){
             e.printStackTrace();
             response.sendError(500);

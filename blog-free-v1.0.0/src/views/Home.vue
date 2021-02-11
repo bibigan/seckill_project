@@ -57,7 +57,8 @@
     },
     mounted () {
       // this.getItems()
-      this.$store.dispatch('setArticles')
+      // this.$store.dispatch('setArticles')
+      this.initData()
     },
     methods: {
       getItems () {
@@ -72,9 +73,13 @@
           console.log('err', err)
         })
       },
-      initData () {
+      async initData () {
         // eslint-disable-next-line no-unused-vars
-        const data = this.$H.get('/items')
+        const data = await this.$H.get('/items')
+        // eslint-disable-next-line eqeqeq
+        // alert('data:' + data.code + (data.code == '50000'))
+        // eslint-disable-next-line eqeqeq
+        if (data.code == '50000') { this.$router.push('/login') }
         this.$store.commit('setValues', data)
       },
     },

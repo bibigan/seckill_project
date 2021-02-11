@@ -21,7 +21,7 @@
         />
 
         <v-btn
-          v-for="(link, i) in links"
+          v-for="(link, i) in linkList"
           :key="i"
           v-bind="link"
           class="hidden-sm-and-down"
@@ -29,21 +29,6 @@
           @click="onClick($event, link)"
         >
           {{ link.text }}
-        </v-btn>
-
-        <v-btn
-          class="hidden-sm-and-down"
-          text
-          @click="exit"
-        >
-          退出登录
-        </v-btn>
-        <v-btn
-          class="hidden-sm-and-down"
-          text
-          @click="test"
-        >
-          携带token的测试请求
         </v-btn>
         <v-spacer />
 
@@ -68,12 +53,32 @@
 
   export default {
     name: 'CoreAppBar',
+    data: () => ({
+      str: '',
+    }),
     computed: {
       ...mapGetters(['links']),
-      LinkList () {
-        return this.links.filter(item => {
-          return this.checkLink(item)
-        })
+      userName () {
+        return localStorage.getItem('userName')
+      },
+      // eslint-disable-next-line vue/return-in-computed-property
+      linkList () {
+        for (var i = 0; i < this.links.length; i++) {
+          // eslint-disable-next-line eqeqeq
+          if (this.links[i].text == '当前用户：') {
+            // eslint-disable-next-line no-unused-vars
+            if (localStorage.getItem('userName').length < 6) {
+              // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+              this.str = '当前用户：' + localStorage.getItem('userName')
+            } else {
+              // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+              this.str = '当前用户：' + localStorage.getItem('userName').toString().substr(0, 4) + '...'
+            }
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties,no-undef
+            this.links[i].text = this.str
+          }
+        }
+        return this.links
       },
     },
 
@@ -82,36 +87,29 @@
       onClick (e, item) {
         e.stopPropagation()
         if (item.to || !item.href) return
-        console.log('item.href:' + item.href)
+        // // eslint-disable-next-line eqeqeq
+        // alert('item.text:' + item.text + (item.text == '退出登录'))
         // eslint-disable-next-line eqeqeq
-        if (this.$route.path == '/home') {
-          console.log('是是是')
+        if (item.text == '退出登录') {
+          localStorage.removeItem('Authorization')
+          localStorage.removeItem('userName')
+        }
+        // eslint-disable-next-line eqeqeq
+        if (item.text == this.str) {
+          alert('用户名：' + localStorage.getItem('userName'))
+          // eslint-disable-next-line eqeqeq
+        } else if (this.$route.path == '/home') {
+          console.log('是 /home')
           this.$vuetify.goTo(item.href.endsWith('!') ? 0 : item.href)
+          // eslint-disable-next-line eqeqeq
         } else {
-          console.log('否否否')
+          console.log('不是 /home')
           this.$router.push('/home' + item.href)
         }
-      },
-      checkLink (link) {
-        // 已登录式屏蔽登录,未登录是屏蔽退出
-        // eslint-disable-next-line eqeqeq
-        if (this.sessionStorage.getItem('user') != null && link.text == '登录') { return false }
-        // eslint-disable-next-line eqeqeq
-        if (this.sessionStorage.getItem('user') == null && link.text == '退出') { return false }
       },
       exit () {
         localStorage.removeItem('Authorization')
         this.$router.push('/login')
-      },
-      test () {
-        this.$axios({
-          method: 'post',
-          url: 'http://127.0.0.1:8088/thymeleaf/test',
-        }).then(function (res) {
-          console.log('res', res)
-        }).catch(function (err) {
-          console.log('err', err)
-        })
       },
     },
   }

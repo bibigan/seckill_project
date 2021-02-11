@@ -145,6 +145,7 @@ public class UsersController {
         }
 //        String jsonString=JSON.toJSONString(items);
 //        return jsonString;
+        System.out.println(JSON.toJSONString(items));
         return items;
     }
     @GetMapping("/orders")
