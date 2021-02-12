@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 public class OrdersInVuex {
+    private Integer id;
     private String title;
     private String img;
     private Float price;
@@ -17,7 +18,8 @@ public class OrdersInVuex {
     public OrdersInVuex(){
 
     }
-    public OrdersInVuex(String title, String img, Float price, Date create_time, String ocode, Integer number) {
+    public OrdersInVuex(Integer id,String title, String img, Float price, Date create_time, String ocode, Integer number) {
+        this.id=id;
         this.title = title;
         this.img = img;
         this.price = price;
@@ -25,5 +27,18 @@ public class OrdersInVuex {
         this.ocode = ocode;
         this.number = number;
         this.total = 0.00f;
+    }
+
+    @Override
+    public String toString() {
+        return "OrdersInVuex{" +
+                "title='" + title + '\'' +
+                ", img='" + img + '\'' +
+                ", price=" + price +
+                ", create_time=" + create_time +
+                ", ocode='" + ocode + '\'' +
+                ", number=" + number +
+                ", total=" + total +
+                '}';
     }
 }

@@ -10,7 +10,7 @@ public class Orders {
     private Integer orders_number;
     private Integer item_id;
     private Integer item_kill_id;
-    private String user_id;
+    private Integer user_id;
     private Byte orders_status;//秒杀结果: -1无效  0成功(未付款)  1已付款  2已取消
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date orders_create_time;
@@ -59,11 +59,11 @@ public class Orders {
         this.item_kill_id = item_kill_id;
     }
 
-    public String getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
@@ -105,5 +105,31 @@ public class Orders {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Orders(String orders_ocode, Integer orders_number, Integer item_id, Integer item_kill_id, Integer user_id, Byte orders_status, Date orders_create_time) {
+        this.orders_ocode = orders_ocode;
+        this.orders_number = orders_number;
+        this.item_id = item_id;
+        this.item_kill_id = item_kill_id;
+        this.user_id = user_id;
+        this.orders_status = orders_status;
+        this.orders_create_time = orders_create_time;
+    }
+
+    public Orders() {
+    }
+
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "orders_ocode='" + orders_ocode + '\'' +
+                ", orders_number=" + orders_number +
+                ", item_id=" + item_id +
+                ", item_kill_id=" + item_kill_id +
+                ", user_id=" + user_id +
+                ", orders_status=" + orders_status +
+                ", orders_create_time=" + orders_create_time +
+                '}';
     }
 }

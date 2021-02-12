@@ -228,7 +228,8 @@
             v.userToken = res.data.token
             console.log('token：' + v.userToken)
             // 将用户token保存到vuex中
-            v.setUser(params.user_name)
+            // v.setUser(params.user_name)
+            localStorage.setItem('userName', params.user_name)
             v.changeLogin({ Authorization: v.userToken })
             alert('登录成功!')
             v.$router.push('/home')

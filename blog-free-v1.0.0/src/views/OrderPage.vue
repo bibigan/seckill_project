@@ -25,7 +25,7 @@
 
 <script>
   // eslint-disable-next-line no-unused-vars
-  import { mapMutations } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
   export default {
     name: 'OrderPage',
     components: {
@@ -50,6 +50,12 @@
         if (data.code == '50000') { this.$router.push('/login') }
         this.$store.commit('setOrder', data)
       },
+    },
+    computed: {
+      // eslint-disable-next-line no-undef
+      ...mapGetters({ getOrder: 'getOrder' }),
+      // eslint-disable-next-line no-undef
+      ...mapState(['order']),
     },
   }
 </script>

@@ -84,6 +84,9 @@ export default new Vuex.Store({
     getUserName: (state) => {
       return state.userName
     },
+    getOrder: state => {
+      return state.order
+    },
   },
   mutations: {
     setDrawer: (state, payload) => (state.drawer = payload),

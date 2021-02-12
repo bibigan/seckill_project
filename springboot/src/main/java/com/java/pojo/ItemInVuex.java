@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 public class ItemInVuex {
+    private Integer killId;
     private String title;
     private String img;
     private Float price;
@@ -17,7 +18,8 @@ public class ItemInVuex {
     public ItemInVuex(){
 
     }
-    public ItemInVuex(String title, String img, Float price, Integer stock, Date seckillStartTime, Date seckillEndTime) {
+    public ItemInVuex(Integer killId,String title, String img, Float price, Integer stock, Date seckillStartTime, Date seckillEndTime) {
+        this.killId=killId;
         this.title = title;
         this.img = img;
         this.price = price;
@@ -72,5 +74,13 @@ public class ItemInVuex {
 
     public void setSeckillEndTime(Date seckillEndTime) {
         this.seckillEndTime = seckillEndTime;
+    }
+
+    public Integer getKillId() {
+        return killId;
+    }
+
+    public void setKillId(Integer killId) {
+        this.killId = killId;
     }
 }

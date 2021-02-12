@@ -30,12 +30,12 @@
           label
         >
           Disabled
-<!--          <v-icon-->
-<!--            dark-->
-<!--            small-->
-<!--          >-->
-<!--            mdi-cart-plus-->
-<!--          </v-icon>-->
+          <!--          <v-icon-->
+          <!--            dark-->
+          <!--            small-->
+          <!--          >-->
+          <!--            mdi-cart-plus-->
+          <!--          </v-icon>-->
         </v-btn>
       </div>
     </template>
@@ -88,7 +88,8 @@
               mdi-plus
             </v-icon>
           </v-btn>
-          <span class="ml-3 subtitle-3">库存：{{value.stock}}</span>
+          <span class="ml-3 subtitle-3">库存：{{ value.stock }}</span>
+          <span class="ml-3 subtitle-3">总计：￥{{ total }}</span>
         </div>
         <!--        <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
       </v-card-text>
@@ -107,7 +108,7 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="dialog = false"
+          @click="buy"
         >
           提交订单
         </v-btn>
@@ -141,6 +142,10 @@
         // eslint-disable-next-line eqeqeq
         return this.status == 0
       },
+      total: function () {
+        // eslint-disable-next-line eqeqeq
+        return this.number * this.value.price
+      },
     },
     methods: {
       reserve () {
@@ -154,6 +159,27 @@
       plus () {
         // eslint-disable-next-line eqeqeq
         this.number = this.number == this.value.stock ? this.number : this.number + 1
+      },
+      buy () {
+        var params = {
+          orders_number: this.number, item_kill_id: this.value.killId,
+        }
+        this.$axios({
+          method: 'post',
+          url: 'http://127.0.0.1:8088/thymeleaf/buy',
+          data: params,
+        }).then(function (res) {
+          // eslint-disable-next-line eqeqeq
+          if (res.data == '超卖') {
+            alert('商品发生超卖！')
+          } else {
+            alert('购买成功！')
+          }
+          this.$router.push('/order')
+        }.bind(this)).catch(function (err) {
+          console.log('err', err)
+          alert('错误')
+        })
       },
     },
   }

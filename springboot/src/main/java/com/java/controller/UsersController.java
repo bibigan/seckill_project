@@ -1,8 +1,6 @@
 package com.java.controller;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,12 +12,14 @@ import com.java.service.UsersService;
 import com.java.util.Result;
 import com.java.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.web.util.HtmlUtils;
-
+import org.apache.commons.lang.math.RandomUtils;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -122,14 +122,6 @@ public class UsersController {
         }
         return "error";
     }
-    @PostMapping("/test")
-    @ResponseBody
-    public String test(@RequestBody Map<String,Object> para) throws JsonProcessingException {
-        HashMap<String,Object> hs=new HashMap<>();
-        hs.put("data","data");
-        ObjectMapper objectMapper=new ObjectMapper();
-        return objectMapper.writeValueAsString(hs);
-    }
     @GetMapping("/items")
     public Object listItems() throws Exception {
         /*先得到ik的list，遍历list，为每个ik找到对应的i，加入到新list*/
@@ -139,7 +131,7 @@ public class UsersController {
         for (Item_kill item_kill:item_kills){
             int item_id=item_kill.getItem_id();
             Item item=itemService.get(item_id);
-            ItemInVuex itemInVuex=new ItemInVuex(item.getItem_title(),item.getItem_img(),item.getItem_price(),item.getItem_stock(),item_kill.getItem_kill_seckillStartTime(),item_kill.getItem_kill_seckillEndTime());
+            ItemInVuex itemInVuex=new ItemInVuex(item_kill.getId(),item.getItem_title(),item.getItem_img(),item.getItem_price(),item.getItem_stock(),item_kill.getItem_kill_seckillStartTime(),item_kill.getItem_kill_seckillEndTime());
             items.add(itemInVuex);
         }
 //        String jsonString=JSON.toJSONString(items);
@@ -153,15 +145,58 @@ public class UsersController {
         //先根据uid找到其所有的orders,遍历os,依次设置ocode，number，create_time
         //期间通过item_id找到对应的item，设置title,img,price
         System.out.println("访问/order");
-        String userName=TokenUtil.getUserName();
-        int user_id=usersService.getByName(userName).getId();
+        int user_id=getUserId();
         List<OrdersInVuex> orders=new ArrayList<>();
         List<Orders> ordersList=ordersService.listByUid(user_id);
         for(Orders o:ordersList){
             Item item=itemService.get(o.getItem_id());
-            OrdersInVuex ordersInVuex=new OrdersInVuex(item.getItem_title(),item.getItem_img(),item.getItem_price(),o.getOrders_create_time(),o.getOrders_ocode(),o.getOrders_number());
+            OrdersInVuex ordersInVuex=new OrdersInVuex(o.getItem_id(),item.getItem_title(),item.getItem_img(),item.getItem_price(),o.getOrders_create_time(),o.getOrders_ocode(),o.getOrders_number());
             orders.add(ordersInVuex);
         }
+        System.out.println("orders:"+orders);
         return orders;
+    }
+
+    @PostMapping("buy")
+    @Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")//通过注解进行事务管理
+    public String createOrder(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        //获取user_id，orders_number,item_kill_id
+        //通过item_kill_id，找到item_kill，获取item_id
+        //生成orders_ocode,orders_create_time
+        //根据item_id获取item，判断是否超卖，是orders_status=-1购买失败，否则=0
+        //成功时，item的库存-orders_number，更新数据库
+        //设置orders，加到数据库
+        System.out.println("访问/buy");
+        System.out.println("para:"+para);
+        String message ="";
+
+        int user_id=getUserId();
+        Integer orders_number=(Integer)para.get("orders_number");
+        Integer item_kill_id=(Integer)para.get("item_kill_id");
+
+        System.out.println("orders_number:"+orders_number+",item_kill_id: "+item_kill_id);
+        int item_id = item_killService.get(item_kill_id).getItem_id();
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+
+        Byte orders_status = 0;
+        Item item = itemService.get(item_id);
+        int num=item.getItem_stock()-orders_number;
+        if(num<0){//超卖
+            orders_status =-1;
+            message="超卖";
+        }else{
+            item.setItem_stock(num);
+            itemService.update(item);
+            message="订单生成";
+        }
+
+        Orders orders=new Orders(orderCode,orders_number,item_id,item_kill_id,user_id,orders_status,new Date());
+        ordersService.add(orders);
+        System.out.println(orders);
+        return message;
+    }
+    public int getUserId(){
+        String userName=TokenUtil.getUserName();
+        return usersService.getByName(userName).getId();
     }
 }
