@@ -21,6 +21,6 @@ public interface ItemMapper {
     @Select("select * from item where id= #{id} ")
     public Item get(int id);
 
-    @Update("update item set item_title=#{item_title},item_img=#{item_title},item_stock=#{item_stock},item_price=#{item_price} where id=#{id} ")
+    @Update("update item set item_title=#{item_title},item_img=#{item_img},item_stock=#{item_stock},item_price=#{item_price} where id=#{id} ")
     public int update(Item p);
 }

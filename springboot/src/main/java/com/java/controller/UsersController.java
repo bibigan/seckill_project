@@ -148,12 +148,14 @@ public class UsersController {
         int user_id=getUserId();
         List<OrdersInVuex> orders=new ArrayList<>();
         List<Orders> ordersList=ordersService.listByUid(user_id);
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
         for(Orders o:ordersList){
             Item item=itemService.get(o.getItem_id());
-            OrdersInVuex ordersInVuex=new OrdersInVuex(o.getItem_id(),item.getItem_title(),item.getItem_img(),item.getItem_price(),o.getOrders_create_time(),o.getOrders_ocode(),o.getOrders_number());
+            OrdersInVuex ordersInVuex=new OrdersInVuex(o.getItem_id(),item.getItem_title(),item.getItem_img(),item.getItem_price(),sdf.format(o.getOrders_create_time()),o.getOrders_ocode(),o.getOrders_number());
             orders.add(ordersInVuex);
         }
-        System.out.println("orders:"+orders);
+//        System.out.println("orders:"+orders);
+        System.out.println(JSON.toJSONString(orders));
         return orders;
     }
 
@@ -174,7 +176,7 @@ public class UsersController {
         Integer orders_number=(Integer)para.get("orders_number");
         Integer item_kill_id=(Integer)para.get("item_kill_id");
 
-        System.out.println("orders_number:"+orders_number+",item_kill_id: "+item_kill_id);
+//        System.out.println("orders_number:"+orders_number+",item_kill_id: "+item_kill_id);
         int item_id = item_killService.get(item_kill_id).getItem_id();
         String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
 

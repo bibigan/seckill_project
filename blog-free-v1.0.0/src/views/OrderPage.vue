@@ -9,8 +9,8 @@
     >
       <order-feed
         :status="false"
-        :layout="[1, 1, 1]"
-        :count="3"
+        :layout="[1, 1, 1, 1, 1, 1]"
+        :count="6"
       >
         <about class="mt-10">
           我的订单
@@ -25,7 +25,7 @@
 
 <script>
   // eslint-disable-next-line no-unused-vars
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapGetters } from 'vuex'
   export default {
     name: 'OrderPage',
     components: {

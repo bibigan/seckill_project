@@ -7,9 +7,9 @@
       id="basedCard"
       :height="value.prominent ? 100 : 100"
     >
-<!--      <h3 class="title font-weight-bold mb-2">-->
-<!--        {{ value.title }}-->
-<!--      </h3>-->
+      <!--      <h3 class="title font-weight-bold mb-2">-->
+      <!--        {{ value.title }}-->
+      <!--      </h3>-->
       <v-data-table
         :headers="headers"
         :items="dessert"
@@ -70,21 +70,21 @@
           { text: '订单编号', value: 'ocode' },
           { text: '创建时间', value: 'createTime' },
         ],
-        dessert: [
-          {
-            title: '越野',
-            createTime: '2020-12-22 00:55:55',
-            img: 'umbrella.jpg',
-            ocode: '20201222005555',
-            price: 435.00,
-            number: 2,
-            total: 0.00,
-          },
-        ],
+        dessert: [],
       }
     },
-    mounted () {
-      this.getValue()
+    created () {
+      this.dessert = [
+        {
+          title: this.value.title,
+          createTime: this.value.create_time,
+          img: this.value.img,
+          ocode: this.value.ocode,
+          price: this.value.price,
+          number: this.value.number,
+          total: this.value.price * this.value.number,
+        },
+      ]
     },
     methods: {
       getStatus (data) {
@@ -94,15 +94,6 @@
         if (total > 400) return 'red'
         else if (total > 200) return 'orange'
         else return 'green'
-      },
-      getValue () {
-        this.dessert[0].title = this.value.title
-        this.dessert[0].createTime = this.value.createTime
-        this.dessert[0].img = this.value.img
-        this.dessert[0].ocode = this.value.ocode
-        this.dessert[0].price = this.value.price
-        this.dessert[0].number = this.value.number
-        this.dessert[0].total = this.value.price * this.value.number
       },
     },
   }

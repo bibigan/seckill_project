@@ -6,8 +6,8 @@
         <!--      引导栏和标题卡槽--><slot />
       </v-col>
       <order-feed-card
-        v-for="(article, i) in paginatedorder"
-        :key="article.title"
+        v-for="(article, i) in paginatedOrder"
+        :key="article.ocode"
         :size="layout[i]"
         :value="article"
         :stat="status"
@@ -88,7 +88,7 @@
       pages () {
         return Math.ceil(this.order.length / this.count)
       },
-      paginatedorder () {
+      paginatedOrder () {
         const start = (this.page - 1) * this.count
         const stop = this.page * this.count
         return this.order.slice(start, stop)

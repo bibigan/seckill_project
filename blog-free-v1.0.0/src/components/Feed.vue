@@ -5,14 +5,13 @@
       <v-col cols="12">
         <!--      引导栏和标题卡槽--><slot />
       </v-col>
-            <feed-card
-              v-for="(article, i) in paginatedArticles"
-              :key="article.title"
-              :size="layout[i]"
-              :value="article"
-              :stat="status"
-            />
-
+      <feed-card
+        v-for="(article, i) in paginatedArticles"
+        :key="article.title"
+        :size="layout[i]"
+        :value="article"
+        :stat="status"
+      />
     </v-row>
     <!--页码-->
     <v-row align="center">
@@ -93,6 +92,10 @@
       paginatedArticles () {
         const start = (this.page - 1) * this.count
         const stop = this.page * this.count
+        // for (var i = 0; i < this.articles.length; i++) {
+        //   console.log('item:' + this.articles[i].tital)
+        // }
+        console.log('items:' + this.articles.length)
         return this.articles.slice(start, stop)
       },
     },
