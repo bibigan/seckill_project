@@ -27,14 +27,14 @@ export default new Vuex.Store({
       },
       {
         // 跳转到首页的正在秒杀栏
-        text: '正在秒杀',
+        text: '秒杀商品',
         href: '#about',
       },
-      {
-        // 跳转到首页的即将秒杀栏
-        text: '即将秒杀',
-        href: '#soon',
-      },
+      // {
+      //   // 跳转到首页的即将秒杀栏
+      //   text: '即将秒杀',
+      //   href: '#soon',
+      // },
       {
         // 跳转到我的订单页
         text: '我的订单',

@@ -9,6 +9,7 @@ import com.java.service.ItemService;
 import com.java.service.Item_killService;
 import com.java.service.OrdersService;
 import com.java.service.UsersService;
+import com.java.util.ComparatorItems;
 import com.java.util.Result;
 import com.java.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,33 +76,7 @@ public class UsersController {
 
         return Result.success();
     }
-    /*
-    1. 账号密码注入到 userParam 对象上
-    2. 把账号通过HtmlUtils.htmlEscape进行转义
-    3. 根据账号和密码获取User对象
-    3.1 如果对象为空，则返回错误信息
-    3.2 如果对象存在，则把用户对象放在 session里，并且返回成功信息
-    * */
-//    @PostMapping("/login")
-//    public String login(@RequestBody Users users, HttpSession session){
-//        System.out.println("访问/login");
-//
-//        String user_name=users.getUser_name();
-//        user_name = HtmlUtils.htmlEscape(user_name);
-//        String user_password=users.getUser_password();
-//        System.out.println("username:"+users.getUser_name());
-//        Users res=usersService.getByName(user_name);
-//        System.out.println("username:"+users.getUser_name());
-//        if(null==res||!users.getUser_password().equals(res.getUser_password())){
-//            String message ="账号密码错误";
-//            return Result.fail(message);
-//        }
-//        else{
-//            System.out.println("user："+res);
-//            session.setAttribute("user", res);
-//            return Result.success();
-//        }
-//    }
+
     @PostMapping("/login")
     @ResponseBody
     public String login(@RequestHeader Map<String,Object> he,@RequestBody Map<String,Object> para) throws JsonProcessingException {
@@ -136,6 +111,8 @@ public class UsersController {
         }
 //        String jsonString=JSON.toJSONString(items);
 //        return jsonString;
+        Collections.sort(items, new ComparatorItems());
+
         System.out.println(JSON.toJSONString(items));
         return items;
     }

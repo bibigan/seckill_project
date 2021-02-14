@@ -12,19 +12,19 @@
       >
         <!--      引导区-->
         <banner />
-        <about>正在秒杀</about>
+        <about>秒杀商品</about>
       </feed>
     </articles>
 
-    <articles>
-      <feed
-        :status="false"
-        :layout="[3, 3, 3, 3, 3, 3, 3, 3]"
-        :count="8"
-      >
-        <home-soon />
-      </feed>
-    </articles>
+<!--    <articles>-->
+<!--      <feed-->
+<!--        :status="false"-->
+<!--        :layout="[3, 3, 3, 3, 3, 3, 3, 3]"-->
+<!--        :count="8"-->
+<!--      >-->
+<!--        <home-soon />-->
+<!--      </feed>-->
+<!--    </articles>-->
 
     <!--    订阅-->
     <!--    <subscribe />-->
