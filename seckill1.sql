@@ -45,12 +45,12 @@ INSERT INTO `seckill`.`item` (`id`, `item_title`, `item_img`, `item_stock`, `ite
 INSERT INTO `seckill`.`item` (`id`, `item_title`, `item_img`, `item_stock`, `item_price`) VALUES ('5', '水底冒险', 'jellyfish.jpg', '20', '664.00');
 INSERT INTO `seckill`.`item` (`id`, `item_title`, `item_img`, `item_stock`, `item_price`) VALUES ('6', '山壁小屋', 'mountaincabin.jpg', '20', '678.00');
 
-INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('1', '1', '2021-02-01 01:13:13', '2021-02-11 01:13:13');
-INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('2', '2', '2021-02-07 01:13:13', '2021-03-01 01:13:13');
+INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('1', '1', '2021-02-01 01:13:13', '2021-03-11 01:13:13');
+INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('2', '2', '2021-02-27 01:13:13', '2021-03-01 01:13:13');
 INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('3', '3', '2021-02-22 01:13:13', '2021-03-07 01:13:13');
-INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('4', '4', '2021-02-05 01:13:13', '2021-02-17 01:13:13');
-INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('5', '5', '2021-02-02 01:13:13', '2021-02-09 01:13:13');
+INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('4', '4', '2021-02-05 01:13:13', '2021-03-17 01:13:13');
+INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('5', '5', '2021-02-02 01:13:13', '2021-03-09 01:13:13');
 INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`, `item_kill_seckillEndTime`) VALUES ('6', '6', '2021-02-01 01:13:13', '2021-02-02 01:13:13');
 
-INSERT INTO `seckill`.`users` (`id`, `user_name`, `user_password`, `user_email`) VALUES ('1', 'zjj', 'zjj', '1049593374@qq.com');
+INSERT INTO `seckill`.`users` (`id`, `user_name`, `user_password`, `user_email`) VALUES ('1', 'zjj', '11111', '1049593374@qq.com');
 

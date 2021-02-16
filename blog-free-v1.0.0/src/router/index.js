@@ -15,16 +15,6 @@ const router = new Router({
       name: 'home',
       component: Home,
     },
-    // {
-    //   path: '#about',
-    //   name: 'about',
-    //   component: Home,
-    // },
-    // {
-    //   path: '#soon',
-    //   name: 'soon',
-    //   component: Home,
-    // },
     {
       path: '/login',
       name: 'login',

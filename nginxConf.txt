@@ -1,0 +1,38 @@
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server {
+        listen       80;
+        server_name  localhost;
+        #root存放前端项目的目录地址，这里采用默认配置，即nginx/html目录
+        #index配置首页文件
+        location / {
+            root   html;
+			try_files $uri $uri/ /index.html;#必须要有的
+            index  index.html index.htm;
+        }
+		#配置500 
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+        #这里解决跨域问题，后端地址及端口号
+		#拦截所有前端 以 /thymeleaf 开始的请求
+		#转发到 后端服务 http://localhost:8080/thymeleaf/..
+		location ~ ^/thymeleaf {
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-Ip $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forworded-For $http_x_forwarded_for;
+			proxy_redirect    off;
+			# 后台服务路径
+            proxy_pass http://127.0.0.1:8080$request_uri;
+		}
+	}
+}
