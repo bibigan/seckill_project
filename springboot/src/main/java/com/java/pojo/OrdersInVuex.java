@@ -2,9 +2,10 @@ package com.java.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrdersInVuex {
+public class OrdersInVuex implements Serializable {
     private Integer Item_id;
     private String title;
     private String img;

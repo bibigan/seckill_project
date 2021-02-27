@@ -35,6 +35,7 @@ public class UsersController {
     OrdersService ordersService;
     @GetMapping("/users")
     public String listUsers() throws Exception {
+        System.out.println("访问users");
         String jsonString=JSON.toJSONString(usersService.list());
         return jsonString;
     }

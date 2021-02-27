@@ -43,7 +43,7 @@ public class TokenUtil {
      */
     public static boolean verify(String tokenValue){
         String token =getToken(tokenValue);
-        System.out.println("token:"+token);
+        System.out.println("5个字符后的token:"+token);
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer("auth0").build();
             DecodedJWT jwt = verifier.verify(token);

@@ -2,9 +2,10 @@ package com.java.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Item {
+public class Item implements Serializable {
     private Integer id;
     private String item_title;
     private String item_img;

@@ -2,9 +2,10 @@ package com.java.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Users {
+public class Users implements Serializable {
     private Integer id;
     private String user_name;
     private String user_password;
