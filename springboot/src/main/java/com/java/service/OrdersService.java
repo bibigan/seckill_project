@@ -11,4 +11,5 @@ public interface OrdersService {
     Orders get(int id);
     List<Orders> list();
     List<Orders> listByUid(int uid);
+    void delOrderCache(int uid);
 }

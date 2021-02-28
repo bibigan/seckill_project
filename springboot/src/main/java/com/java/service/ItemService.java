@@ -10,4 +10,5 @@ public interface ItemService {
     void update(Item c);
     Item get(int id);
     List<Item> list();
+    void delItemCache(int uid);
 }
