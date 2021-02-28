@@ -57,4 +57,9 @@ public class ItemServiceImpl implements ItemService {
 //        stringRedisTemplate.delete(hashKey);
         LOGGER.info("删除商品缓存:：[{}]",hashKey);
     }
+
+    @Override
+    public int updateStockByOptimistic(Item c) {
+        return itemMapper.updateStockByOptimistic(c);
+    }
 }

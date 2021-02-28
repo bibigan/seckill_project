@@ -23,4 +23,6 @@ public interface ItemMapper {
 
     @Update("update item set item_title=#{item_title},item_img=#{item_img},item_stock=#{item_stock},item_price=#{item_price} where id=#{id} ")
     public int update(Item p);
+
+    public int updateStockByOptimistic(Item c);
 }

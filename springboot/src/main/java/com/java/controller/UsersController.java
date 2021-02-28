@@ -152,6 +152,7 @@ public class UsersController {
 //        System.out.println(JSON.toJSONString(orders));
         return orders;
     }
+    /*缓存一致性*/
     @PostMapping("buy")
     public String createOrder(@RequestBody Map<String,Object> para) throws JsonProcessingException {
         LOGGER.info("访问/buy");
@@ -202,6 +203,7 @@ public class UsersController {
         LOGGER.info("这就去通知消息队列开始重试删除缓存：[{}]", message);
         this.rabbitTemplate.convertAndSend("delCache", message);
     }
+    /*未考虑到缓存一致性*/
     @PostMapping("buy1")
     public String createOrder1(@RequestBody Map<String,Object> para) throws JsonProcessingException {
         LOGGER.info("访问/buy");
@@ -223,7 +225,10 @@ public class UsersController {
         return "OK";
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")//通过注解进行事务管理
+    /*
+     * 用乐观锁解决超卖
+     * */
+//    @Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")//通过注解进行事务管理
     public String buy(Integer orders_number,Integer item_kill_id,int user_id) throws JsonProcessingException {
         String message ="";
 
@@ -238,12 +243,48 @@ public class UsersController {
             message="超卖";
         }else{
             item.setItem_stock(num);
-            itemService.update(item);
+//            itemService.update(item);
+            //乐观锁更新库存
+            saleStockOptimistic(item);
+
             message="订单生成";
             Orders orders=new Orders(orderCode,orders_number,item_id,item_kill_id,user_id,orders_status,new Date());
             ordersService.add(orders);
         }
         return message;
+    }
+    /*
+    * 无乐观锁解决超卖
+    * */
+    @Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")//通过注解进行事务管理
+    public String buy1(Integer orders_number,Integer item_kill_id,int user_id) throws JsonProcessingException {
+        String message ="";
+
+        int item_id = item_killService.get(item_kill_id).getItem_id();
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+
+        Byte orders_status = 0;
+        Item item = itemService.get(item_id);
+        int num=item.getItem_stock()-orders_number;
+        if(num<0){//超卖
+            orders_status =-1;
+            message="超卖";
+        }else{
+            item.setItem_stock(num);
+            itemService.update(item);
+
+            message="订单生成";
+            Orders orders=new Orders(orderCode,orders_number,item_id,item_kill_id,user_id,orders_status,new Date());
+            ordersService.add(orders);
+        }
+        return message;
+    }
+    private void saleStockOptimistic(Item item) {
+        LOGGER.info("查询数据库，尝试更新库存");
+        int count = itemService.updateStockByOptimistic(item);
+        if (count == 0){
+            throw new RuntimeException("并发更新库存失败，version不匹配") ;
+        }
     }
 
 //    @PostMapping("buy")

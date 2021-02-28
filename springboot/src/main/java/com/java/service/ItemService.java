@@ -11,4 +11,5 @@ public interface ItemService {
     Item get(int id);
     List<Item> list();
     void delItemCache(int uid);
+    int updateStockByOptimistic(Item c);
 }

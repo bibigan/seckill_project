@@ -11,6 +11,7 @@ public class Item implements Serializable {
     private String item_img;
     private Float item_price;
     private Integer item_stock;
+    private Integer version;
 
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 //    private Date create_time;
@@ -55,5 +56,13 @@ public class Item implements Serializable {
 
     public void setItem_price(Float item_price) {
         this.item_price = item_price;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

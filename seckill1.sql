@@ -54,3 +54,4 @@ INSERT INTO `seckill`.`item_kill` (`id`, `item_id`, `item_kill_seckillStartTime`
 
 INSERT INTO `seckill`.`users` (`id`, `user_name`, `user_password`, `user_email`) VALUES ('1', 'zjj', '11111', '1049593374@qq.com');
 
+ALTER TABLE item ADD COLUMN version int(11) NOT NULL DEFAULT 0 COMMENT '乐观锁，版本号' AFTER item_price;
