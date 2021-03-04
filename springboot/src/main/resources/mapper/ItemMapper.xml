@@ -6,6 +6,7 @@
         update item
         <set>
             version = version + 1,
+            item_stock = #{item_stock},
         </set>
         WHERE id = #{id,jdbcType=INTEGER}
         AND version = #{version,jdbcType=INTEGER}

@@ -1,5 +1,6 @@
 package com.java.service;
 
+import com.java.pojo.Item;
 import com.java.pojo.Orders;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface OrdersService {
     List<Orders> list();
     List<Orders> listByUid(int uid);
     void delOrderCache(int uid);
+    void createOrderByMq(Orders c, Item item);
 }

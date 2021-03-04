@@ -1,6 +1,7 @@
 package com.java.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.pojo.*;
@@ -25,7 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
+import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,9 @@ public class UsersController {
     OrdersService ordersService;
     @Autowired
     private AmqpTemplate rabbitTemplate;
+
+    //每秒放行10个请求 令牌
+    RateLimiter rateLimiter = RateLimiter.create(10);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
 
@@ -78,17 +82,6 @@ public class UsersController {
             return Result.fail(message);
 
         }
-//        System.out.println("不存在用户名"+name);
-//        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-//        int times = 2;
-//        String algorithmName = "md5";
-//
-//        String encodedPassword = new SimpleHash(algorithmName, password, salt, times).toString();
-//
-//        user.setSalt(salt);
-//        Users user=new Users(name,password,email);
-//        user.setPassword(encodedPassword);
-//        user.setUser_password(password);
         usersService.add(user);
 
         return Result.success();
@@ -126,16 +119,12 @@ public class UsersController {
             ItemInVuex itemInVuex=new ItemInVuex(item_kill.getId(),item.getItem_title(),item.getItem_img(),item.getItem_price(),item.getItem_stock(),item_kill.getItem_kill_seckillStartTime(),item_kill.getItem_kill_seckillEndTime());
             items.add(itemInVuex);
         }
-//        String jsonString=JSON.toJSONString(items);
-//        return jsonString;
         Collections.sort(items, new ComparatorItems());
 
-//        System.out.println(JSON.toJSONString(items));
         return items;
     }
     @GetMapping("/order")
     public Object listOrders() throws Exception {
-//        Users users=(Users) session.getAttribute("user");
         //先根据uid找到其所有的orders,遍历os,依次设置ocode，number，create_time
         //期间通过item_id找到对应的item，设置title,img,price
         LOGGER.info("访问/order");
@@ -148,14 +137,55 @@ public class UsersController {
             OrdersInVuex ordersInVuex=new OrdersInVuex(o.getItem_id(),item.getItem_title(),item.getItem_img(),item.getItem_price(),sdf.format(o.getOrders_create_time()),o.getOrders_ocode(),o.getOrders_number());
             orders.add(ordersInVuex);
         }
-//        System.out.println("orders:"+orders);
-//        System.out.println(JSON.toJSONString(orders));
         return orders;
     }
-    /*缓存一致性*/
+    /*缓存一致性+乐观锁防止超卖+接口限流+单一用户访问控制*/
     @PostMapping("buy")
     public String createOrder(@RequestBody Map<String,Object> para) throws JsonProcessingException {
         LOGGER.info("访问/buy");
+        // 阻塞式获取令牌
+        //LOGGER.info("等待时间" + rateLimiter.acquire());
+        // 非阻塞式获取令牌——初始化了令牌桶类，每秒放行10个请求
+        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+            LOGGER.warn("你被限流了，真不幸，直接返回失败");
+            return "接口被限流";
+        }
+        LOGGER.info("未被限流");
+
+        int user_id=getUserId();
+        Integer orders_number=(Integer)para.get("orders_number");
+        Integer item_kill_id=(Integer)para.get("item_kill_id");
+        String mess="";
+
+        int count = usersService.addUserCount(user_id);
+        LOGGER.info("用户截至该次的访问次数为: [{}]", count);
+        boolean isBanned = usersService.getUserIsBanned(user_id);
+        if (isBanned) {
+            return "购买失败，超过频率限制";
+        }
+
+        try{
+            //乐观锁更新数据库
+            mess= buy(orders_number,item_kill_id,user_id);
+        }catch (Exception e) {
+            LOGGER.error("购买失败：[{}]", e.getMessage());
+        }
+
+        return mess;
+//        return "订单生成";
+    }
+    /*缓存一致性+乐观锁防止超卖+接口限流*/
+    @PostMapping("buy3")
+    public String createOrder3(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        LOGGER.info("访问/buy");
+        // 阻塞式获取令牌
+        //LOGGER.info("等待时间" + rateLimiter.acquire());
+        // 非阻塞式获取令牌——初始化了令牌桶类，每秒放行10个请求
+        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+            LOGGER.warn("你被限流了，真不幸，直接返回失败");
+            return "超卖";
+        }
+
         int user_id=getUserId();
         Integer orders_number=(Integer)para.get("orders_number");
         Integer item_kill_id=(Integer)para.get("item_kill_id");
@@ -163,6 +193,43 @@ public class UsersController {
         try{
             //更新数据库
             mess= buy(orders_number,item_kill_id,user_id);
+        }catch (Exception e) {
+            LOGGER.error("购买失败：[{}]", e.getMessage());
+        }
+
+        return mess;
+//        return "订单生成";
+    }
+    /*缓存一致性+乐观锁防止超卖*/
+    @PostMapping("buy2")
+    public String createOrder2(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        LOGGER.info("访问/buy");
+        int user_id=getUserId();
+        Integer orders_number=(Integer)para.get("orders_number");
+        Integer item_kill_id=(Integer)para.get("item_kill_id");
+        String mess="";
+        try{
+            //乐观锁更新数据库
+            mess= buy(orders_number,item_kill_id,user_id);
+        }catch (Exception e) {
+            LOGGER.error("购买失败：[{}]", e.getMessage());
+        }
+        LOGGER.info("购买成功");
+
+        return mess;
+//        return "订单生成";
+    }
+    /*缓存一致性*/
+    @PostMapping("buy1")
+    public String createOrder1(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+        LOGGER.info("访问/buy");
+        int user_id=getUserId();
+        Integer orders_number=(Integer)para.get("orders_number");
+        Integer item_kill_id=(Integer)para.get("item_kill_id");
+        String mess="";
+        try{
+            //悲观更新数据库
+            mess= buy1(orders_number,item_kill_id,user_id);
 //            //删除缓存
 //            ordersService.delOrderCache(user_id);
 //            try{
@@ -204,8 +271,8 @@ public class UsersController {
         this.rabbitTemplate.convertAndSend("delCache", message);
     }
     /*未考虑到缓存一致性*/
-    @PostMapping("buy1")
-    public String createOrder1(@RequestBody Map<String,Object> para) throws JsonProcessingException {
+    @PostMapping("buy0")
+    public String createOrder0(@RequestBody Map<String,Object> para) throws JsonProcessingException {
         LOGGER.info("访问/buy");
         int user_id=getUserId();
         Integer orders_number=(Integer)para.get("orders_number");
@@ -224,12 +291,51 @@ public class UsersController {
         ordersService.delOrderCache(4);
         return "OK";
     }
-
-    /*
-     * 用乐观锁解决超卖
-     * */
-//    @Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")//通过注解进行事务管理
+    /**
+     * 乐观锁更新库存+异步生成订单
+     */
     public String buy(Integer orders_number,Integer item_kill_id,int user_id) throws JsonProcessingException {
+       String message ="";
+       try {
+            int item_id = item_killService.get(item_kill_id).getItem_id();
+            String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+
+            Byte orders_status = 0;
+            Item item = itemService.get(item_id);
+            int num=item.getItem_stock()-orders_number;
+            LOGGER.info("检查缓存中商品是否还有库存");
+            if(num<0){//超卖
+                orders_status =-1;
+                LOGGER.info("秒杀请求失败，库存不足");
+                message="超卖";
+            }else {
+                // 有库存，则将用户id和商品id封装为消息体传给消息队列处理
+                // 注意这里的有库存和已经下单都是缓存中的结论，存在不可靠性，在消息队列中会查表再次验证
+                LOGGER.info("有库存：[{}]", item.getItem_stock());
+
+                item.setItem_stock(num);
+                //乐观锁更新库存
+//                saleStockOptimistic(item);
+                //异步生成订单
+                Orders orders = new Orders(orderCode, orders_number, item_id, item_kill_id, user_id, orders_status, new Date());
+//                ordersService.add(orders);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("orders", orders);
+                jsonObject.put("item", item);
+                sendToOrderQueue(jsonObject.toJSONString());
+
+                message = "订单生成";
+            }
+        }catch (Exception e) {
+            LOGGER.error("下单接口：异步处理订单异常：", e);
+            return "秒杀请求失败，服务器正忙.....";
+        }
+        return message;
+    }
+    /**
+     * 乐观锁更新库存
+     */
+    public String buy2(Integer orders_number,Integer item_kill_id,int user_id) throws JsonProcessingException {
         String message ="";
 
         int item_id = item_killService.get(item_kill_id).getItem_id();
@@ -238,12 +344,16 @@ public class UsersController {
         Byte orders_status = 0;
         Item item = itemService.get(item_id);
         int num=item.getItem_stock()-orders_number;
+        LOGGER.info("检查缓存中商品是否还有库存");
         if(num<0){//超卖
             orders_status =-1;
+            LOGGER.info("秒杀请求失败，库存不足");
             message="超卖";
         }else{
+            // 有库存，则将用户id和商品id封装为消息体传给消息队列处理
+            // 注意这里的有库存和已经下单都是缓存中的结论，存在不可靠性，在消息队列中会查表再次验证
+            LOGGER.info("有库存：[{}]", item.getItem_stock());
             item.setItem_stock(num);
-//            itemService.update(item);
             //乐观锁更新库存
             saleStockOptimistic(item);
 
@@ -279,6 +389,9 @@ public class UsersController {
         }
         return message;
     }
+    /*
+    * 乐观锁更新库存
+    * */
     private void saleStockOptimistic(Item item) {
         LOGGER.info("查询数据库，尝试更新库存");
         int count = itemService.updateStockByOptimistic(item);
@@ -327,5 +440,13 @@ public class UsersController {
     public int getUserId(){
         String userName=TokenUtil.getUserName();
         return usersService.getByName(userName).getId();
+    }
+    /**
+     * 向消息队列orderQueue发送消息
+     * @param message
+     */
+    private void sendToOrderQueue(String message) {
+        LOGGER.info("这就去通知消息队列开始下单：[{}]", message);
+        this.rabbitTemplate.convertAndSend("orderQueue", message);
     }
 }
