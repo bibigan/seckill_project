@@ -116,7 +116,7 @@ public class CanalClient {
                     if (eventType == EventType.UPDATE) {
                         printColumn(afterColumns);
                         // 进行删除缓存操作
-                        deleteCache(afterColumns, tableName, schemaName);
+//                        deleteCache(afterColumns, tableName, schemaName);
                     }
 
 

@@ -196,7 +196,7 @@
           user_name: this.name, user_password: this.password,
         }
         // eslint-disable-next-line no-undef
-        this.$axios.post('http://127.0.0.1:8088/thymeleaf/login', params)
+        this.$axios.post('http://192.168.189.130:8088/thymeleaf/login', params)
           .then(response => {
             const { data } = response
             // console.log('data:' + data)
@@ -218,7 +218,7 @@
         }
         this.$axios({
           method: 'post',
-          url: 'http://127.0.0.1:8088/thymeleaf/login',
+          url: 'http://192.168.189.130:8088/thymeleaf/login',
           data: params,
         }).then(function (res) {
           // eslint-disable-next-line eqeqeq

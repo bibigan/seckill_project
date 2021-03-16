@@ -112,7 +112,7 @@ export default new Vuex.Store({
   },
   actions: {
     setArticles (context) {
-      axios.get('http://127.0.0.1:8088/thymeleaf/items').then(response => {
+      axios.get('http://192.168.189.130:8088/thymeleaf/items').then(response => {
         // eslint-disable-next-line no-unused-vars
         context.commit('setValues', response.data.result)
       })

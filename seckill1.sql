@@ -1,4 +1,3 @@
-create database seckill;
 use seckill;
 
 CREATE TABLE users (

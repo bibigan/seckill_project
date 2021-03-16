@@ -1,0 +1,29 @@
+rm -f apache-jmeter-5.4.1.zip
+rm -f canal.deployer-1.1.0.tar.gz
+rm -f nginx-1.13.11.tar.gz
+rm -f otp_src_21.1.tar.gz
+rm -f rabbitmq-server-generic-unix-3.7.8.tar.xz
+rm -f redis-5.0.7.tar.gz
+rm -rf nginx-1.13.11
+
+rm -f favicon.ico
+rm -f favicon.png
+rm -f index.html
+rm -rf css
+rm -rf js
+rm -rf img
+
+rpm -qa|grep -i mysql
+rpm -ev --nodeps mysql-community-libs-5.7.33-1.el7.x86_64
+rpm -ev --nodeps mysql-community-common-5.7.33-1.el7.x86_64
+rpm -ev --nodeps mysql-community-client-5.7.33-1.el7.x86_64
+rpm -ev --nodeps mysql57-community-release-el7-8.noarch
+rpm -ev --nodeps mysql-community-server-5.7.33-1.el7.x86_64
+
+rm -rf /etc/selinux/targeted/active/modules/100/rabbitmq
+rm -rf /usr/local/rabbitmq
+rm -rf /usr/local/rabbitmq/etc/rabbitmq
+rm -rf /usr/local/rabbitmq/var/lib/rabbitmq
+rm -rf /usr/local/rabbitmq/var/log/rabbitmq
+
+

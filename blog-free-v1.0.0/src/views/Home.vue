@@ -64,7 +64,7 @@
       getItems () {
         this.$axios({
           method: 'get',
-          url: 'http://127.0.0.1:8088/thymeleaf/items',
+          url: 'http://192.168.189.130:8088/thymeleaf/items',
           data: null,
         }).then(function (res) {
           const data = res

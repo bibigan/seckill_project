@@ -14,7 +14,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/register': {
-        target: 'http://127.0.0.1:8088/thymeleaf/register', // 目标接口域名
+        target: 'http://192.168.189.130:8088/thymeleaf/register', // 目标接口域名
         changeOrigin: true, // 是否跨域
         // pathRewrite: {
         //   '^/register': '/register', // 重写接口

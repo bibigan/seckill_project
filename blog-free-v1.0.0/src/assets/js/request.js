@@ -8,7 +8,7 @@ export default {
         data: {},
     },
     request (options = {}) {
-        options.url = 'http://127.0.0.1:8088/thymeleaf' + options.url
+        options.url = 'http://192.168.189.130:8088/thymeleaf' + options.url
         options.method = options.method || this.common.method
         options.header = options.header || this.common.header
 

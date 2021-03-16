@@ -166,7 +166,7 @@
         }
         this.$axios({
           method: 'post',
-          url: 'http://127.0.0.1:8088/thymeleaf/buy',
+          url: 'http://192.168.189.130:8088/thymeleaf/buy',
           data: params,
         }).then(function (res) {
           // eslint-disable-next-line eqeqeq

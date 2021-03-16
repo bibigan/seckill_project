@@ -167,7 +167,7 @@
         }
         // eslint-disable-next-line no-undef
         // console.log('email:' + this.email)
-        this.$axios.post('http://127.0.0.1:8088/thymeleaf/register', params)
+        this.$axios.post('http://192.168.189.130:8088/thymeleaf/register', params)
           .then(response => {
             const { data } = response
             // console.log('data:' + data)
